@@ -17,11 +17,10 @@ Before running the tests, ensure you have the following installed:
 **cd <repository_directory>**
 
 3. Install Dependencies:
-4. 
 **pip install -r requirements.txt**
 If there's a requirements.txt file that lists additional Python dependencies needed for your tests.
 
-5. Download Additional Libraries: If your tests require additional libraries (e.g., SeleniumLibrary for web testing), install them using pip as well:
+4. Download Additional Libraries: If your tests require additional libraries (e.g., SeleniumLibrary for web testing), install them using pip as well:
    **pip install robotframework-seleniumlibrary**
 
 **Running **
