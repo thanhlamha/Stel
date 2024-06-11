@@ -1,4 +1,5 @@
 *** Variables ***
-${USERNAME_FIELD}    xpath=//input[@id='login-username']&[@name='login-username']
-${PASSWORD_FIELD}    xpath=//input[@id='login-password']
-${LOGIN_BUTTON}      xpath=//button[@id='submitloginform']
+${txt_username}   (//input[@id='login-username'])
+${txt_password}   (//input[@id='login-password'])
+${txt_login_capcha}    (//input[@id='login-captcha'])
+${btn_login_button}     (//*[@id='submitloginform'])
