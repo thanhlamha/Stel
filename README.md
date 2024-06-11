@@ -3,6 +3,7 @@
 This repository contains automated tests written in Robot Framework for testing the functionality of Stel
 
 **Prerequisites**
+
 Before running the tests, ensure you have the following installed:
 
 - Python: Robot Framework requires Python to be installed. Install Python from python.org if you haven't already.
@@ -10,14 +11,19 @@ Before running the tests, ensure you have the following installed:
   **pip install robotframework**
 
 **Setup Instructions**
+
 1. Clone the Repository: 
 **git clone <>
 cd <repository_directory>**
-2. Install Dependencies:
+
+3. Install Dependencies:
+4. 
 **pip install -r requirements.txt**
 If there's a requirements.txt file that lists additional Python dependencies needed for your tests.
 
-3. Download WebDriver (if using SeleniumLibrary):
+5. Download Selenium
+**   pip install robotframework-seleniumlibrary
+**
 
 **Running **
 To run the Robot Framework tests:
