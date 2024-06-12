@@ -27,7 +27,7 @@ If there's a requirements.txt file that lists additional Python dependencies nee
 To run the Robot Framework tests:
 1. Navigate to the Tests Directory: **cd tests**
 2. Execute Robot Framework:
-**robot --outputdir <expected location> <test file>**
+robot --outputdir <expected location> <test file>
 
 Example: **robot --outputdir C:\Users\STEL\Project\Stel\reports C:\Users\STEL\Project\Stel\tests\login\login.robot**
 
