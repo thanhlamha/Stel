@@ -29,16 +29,16 @@ pipeline {
             }
         }
         
-        // stage('Run Robot Framework Tests') {
-        //     steps {
-        //         // Execute Robot Framework tests inside Docker container
-        //         script {
-        //             docker.image(DOCKER_IMAGE).inside {
-        //                 sh 'robot path/to/your/testfile.robot'
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Run Robot Framework Tests') {
+            steps {
+                // Execute Robot Framework tests inside Docker container
+                script {
+                    docker.image(DOCKER_IMAGE).inside {
+                        sh 'robot tests/login/login.robot'  // Adjusted path to your .robot file
+                    }
+                }
+            }
+        }
     }
     
     post {
