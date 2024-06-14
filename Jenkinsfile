@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        GIT_CREDENTIALS = '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' // Replace with your actual credentials ID
+        GIT_CREDENTIALS = '7310a3eb-f60e-4df0-8819-49b444ae99e5' // Replace with your actual credentials ID
         GIT_REPO_URL = 'https://github.com/thanhlamha/Stel.git'
         GIT_BRANCH = 'main' // Replace with your branch name if different
     }
