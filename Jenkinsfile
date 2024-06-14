@@ -11,10 +11,15 @@ pipeline {
         
         stage('Run Robot Framework Tests') {
             steps {
-                // Define the path to your .robot file
+                // Find the .robot file dynamically
                 script {
-                    def robotCommand = "robot tests/login/login.robot"
-                    sh label: '', script: robotCommand
+                    def robotFilePath = findFiles(glob: '**/*.robot')[0]?.path
+                    if (robotFilePath) {
+                        def robotCommand = "robot ${robotFilePath}"
+                        sh label: '', script: robotCommand
+                    } else {
+                        error "No .robot file found in the repository"
+                    }
                 }
             }
         }
