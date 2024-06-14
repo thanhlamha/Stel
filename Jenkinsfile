@@ -1,9 +1,6 @@
 pipeline {
     agent any  // Use 'any' agent type to allow running on any available agent
-    
-    environment {
-        DOCKER_IMAGE = 'python:3.9'  // Specify the Docker image to use
-    }
+
     
     stages {
         stage('Checkout') {
@@ -18,9 +15,7 @@ pipeline {
             steps {
                 // Execute Robot Framework tests inside Docker container
                 script {
-                    docker.image(DOCKER_IMAGE).inside {
                         sh 'robot tests/login/login.robot'  // Adjusted path to your .robot file
-                    }
                 }
             }
         }
