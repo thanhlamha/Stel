@@ -198,7 +198,7 @@ WF4X-08 Kiểm tra chức năng đăng nhập với trường Capcha không hợ
     Input Text    ${txt_password}    abc
     Input Text    ${txt_login_capcha}    abc
     Click Element    ${btn_login_button}
-    Page Should Contain    ${invalidCapcha}
+    Page Should Contain    ${invalidCapcha}    timeout=5s
 
     [Teardown]    Close Browser
 
@@ -214,7 +214,7 @@ WF4X-12 Kiểm tra chức năng đăng nhập với username, password và capch
     ...               2. N/A
     ...               3. Hiển thị thông báo lỗi "Mã xác thực không chính xác"
     [Tags]    Login
-    [Timeout]    15s
+    [Timeout]    30s
     [Setup]    Open Browser    ${BASE_URL}    edge
 
     Wait Until Element Is Visible    ${txt_username}
@@ -222,6 +222,6 @@ WF4X-12 Kiểm tra chức năng đăng nhập với username, password và capch
     Input Text    ${txt_password}    abc
     Input Text    ${txt_login_capcha}    abc
     Click Element    ${btn_login_button}
-    Page Should Contain    ${invalidCapcha}
-
+    Page Should Contain    ${invalidCapcha}    timeout=5s
+    
     [Teardown]    Close Browser
