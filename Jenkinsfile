@@ -26,7 +26,13 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Install dependencies
+                 sh 'python --version'  // Check Python version
+                sh 'pip --version'     // Check pip version
+                
+                // Upgrade pip to the latest version
                 sh 'pip install --upgrade pip'
+                
+                // Install Robot Framework using pip3 (assuming Python 3.x is used)
                 sh 'pip3 install robotframework'
             }
         }
