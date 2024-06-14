@@ -26,7 +26,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Install dependencies
-                sh 'python3 -m pip install --upgrade pip'
+                sh 'pip install --upgrade pip'
                 sh 'pip3 install robotframework'
             }
         }
