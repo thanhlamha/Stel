@@ -211,7 +211,7 @@ WF4X-12 Kiểm tra chức năng đăng nhập với username, password và capch
     ...               
     ...               Expected
     ...               1. Hiển thị trang Đăng nhập
-    ...               2. N/A
+    ...               2. N/A 
     ...               3. Hiển thị thông báo lỗi "Mã xác thực không chính xác"
     [Tags]    Login
     [Timeout]    30s
