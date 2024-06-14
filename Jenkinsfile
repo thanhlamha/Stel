@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9'  // Specify the Python version matching your Docker image
+            args '-u root'  // Add '-u root' if you need root permissions
+        }
+    }
     
     stages {
         stage('Checkout') {
@@ -9,27 +14,24 @@ pipeline {
             }
         }
         
-        stage('Install Dependencies') {
+        stage('Set Up Environment') {
             steps {
-                // If you need to install any dependencies, add shell commands here
-                sh '''
-                    python3 -m venv venv
-                    source venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt  # Install Python dependencies
-                    sh 'pip install -r requirements.txt'  // Example for Python dependencies
-
-                '''
+                // Create and activate a Python virtual environment
+                script {
+                    sh '''
+                        python -m venv venv
+                        source venv/Scripts/activate  # Adjust for Windows path
+                        python -m pip install --upgrade pip
+                        pip install -r requirements.txt  # Install Python dependencies
+                    '''
+                }
             }
         }
         
         stage('Run Robot Framework Tests') {
             steps {
                 // Execute Robot Framework tests
-                script {
-                    def robotCommand = "robot test/login/login.robot"
-                    sh label: '', script: robotCommand
-                }
+                sh 'robot path/to/your/testfile.robot'
             }
         }
     }
