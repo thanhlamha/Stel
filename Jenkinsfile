@@ -12,7 +12,14 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // If you need to install any dependencies, add shell commands here
-                sh 'pip install -r requirements.txt'  // Example for Python dependencies
+                sh '''
+                    python3 -m venv venv
+                    source venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt  # Install Python dependencies
+                    sh 'pip install -r requirements.txt'  // Example for Python dependencies
+
+                '''
             }
         }
         
