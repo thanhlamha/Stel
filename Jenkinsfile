@@ -13,21 +13,6 @@ pipeline {
             }
         }
         
-        stage('Set Up Environment') {
-            steps {
-                // Run Docker commands to create virtual environment and install dependencies
-                script {
-                    docker.image(DOCKER_IMAGE).inside {
-                        sh '''
-                            python -m venv venv
-                            source venv/Scripts/activate  # Adjust for Windows path
-                            python -m pip install --upgrade pip
-                            pip install -r requirements.txt  # Install Python dependencies
-                        '''
-                    }
-                }
-            }
-        }
         
         stage('Run Robot Framework Tests') {
             steps {
