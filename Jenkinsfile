@@ -1,9 +1,8 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9'  // Specify the Python version matching your Docker image
-            args '-u root'  // Add '-u root' if you need root permissions
-        }
+    agent any  // Use 'any' agent type to allow running on any available agent
+
+    environment {
+        DOCKER_IMAGE = 'python:3.9'  // Specify the Docker image to use
     }
     
     stages {
@@ -16,24 +15,30 @@ pipeline {
         
         stage('Set Up Environment') {
             steps {
-                // Create and activate a Python virtual environment
+                // Run Docker commands to create virtual environment and install dependencies
                 script {
-                    sh '''
-                        python -m venv venv
-                        source venv/Scripts/activate  # Adjust for Windows path
-                        python -m pip install --upgrade pip
-                        pip install -r requirements.txt  # Install Python dependencies
-                    '''
+                    docker.image(DOCKER_IMAGE).inside {
+                        sh '''
+                            python -m venv venv
+                            source venv/Scripts/activate  # Adjust for Windows path
+                            python -m pip install --upgrade pip
+                            pip install -r requirements.txt  # Install Python dependencies
+                        '''
+                    }
                 }
             }
         }
         
-        stage('Run Robot Framework Tests') {
-            steps {
-                // Execute Robot Framework tests
-                sh 'robot path/to/your/testfile.robot'
-            }
-        }
+        // stage('Run Robot Framework Tests') {
+        //     steps {
+        //         // Execute Robot Framework tests
+        //         script {
+        //             docker.image(DOCKER_IMAGE).inside {
+        //                 sh 'robot path/to/your/testfile.robot'
+        //             }
+        //         }
+        //     }
+        // }
     }
     
     post {
