@@ -207,7 +207,7 @@ WF4X-12 Kiểm tra chức năng đăng nhập với username, password và capch
     ...               Author: Lam Ha
     ...               Steps:
     ...               2. Nhâp thông tin username, password  và capcha không hợp lệ.
-    ...               4.. Click nút [Đăng Nhập]
+    ...               4. Click nút [Đăng Nhập]
     ...               
     ...               Expected
     ...               1. Hiển thị trang Đăng nhập
