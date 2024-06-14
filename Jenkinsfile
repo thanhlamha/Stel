@@ -26,15 +26,16 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 // Install dependencies
-                sh 'pip install robotframework'
+                sh 'python3 -m pip install --upgrade pip'
+                sh 'pip3 install robotframework'
             }
         }
 
         stage('Run Tests') {
             steps {
                 // Run tests
-                dir('/var/jenkins_home/workspace/Stel/tests/login') {
-                    sh 'robot login.robot'
+                dir('path/to/your/tests') {
+                    sh 'robot your_test_suite.robot'
                 }
             }
         }
@@ -42,8 +43,8 @@ pipeline {
         stage('Publish Results') {
             steps {
                 // Publish test results
-                archiveArtifacts artifacts: '/var/jenkins_home/workspace/Stel/results/output.xml', allowEmptyArchive: true
-                junit '/var/jenkins_home/workspace/Stel/results/output.xml'
+                archiveArtifacts artifacts: 'path/to/your/tests/output.xml', allowEmptyArchive: true
+                junit 'path/to/your/tests/output.xml'
             }
         }
     }
