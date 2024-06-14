@@ -4,16 +4,23 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from your Git repository
-                git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
+                // Checkout code from GitHub repository
+                git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/username/repository.git'
+            }
+        }
+        
+        stage('Install Dependencies') {
+            steps {
+                // If you need to install any dependencies, add shell commands here
+                sh 'pip install -r requirements.txt'  // Example for Python dependencies
             }
         }
         
         stage('Run Robot Framework Tests') {
             steps {
-                // Define the path to your .robot file
+                // Execute Robot Framework tests
                 script {
-                    def robotCommand = "robot tests/login/login.robot"
+                    def robotCommand = "robot test/login/login.robot"
                     sh label: '', script: robotCommand
                 }
             }
@@ -23,11 +30,11 @@ pipeline {
     post {
         success {
             echo "Robot Framework tests executed successfully"
-            // You can add additional actions upon successful execution
+            // Add actions upon successful execution
         }
         failure {
             echo "Robot Framework tests failed"
-            // You can add additional actions upon failure
+            // Add actions upon failure
         }
     }
 }
