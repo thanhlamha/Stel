@@ -13,7 +13,7 @@ pipeline {
             steps {
                 // Define the path to your .robot file
                 script {
-                    def robotCommand = "robot /var/jenkins_home/workspace/stel-test/tests/login/login.robot"
+                    def robotCommand = "robot tests/login/login.robot"
                     sh label: '', script: robotCommand
                 }
             }
