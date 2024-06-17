@@ -1,12 +1,6 @@
 pipeline {
     agent any
     
-    environment {
-        // Ensure the path includes the directory where Firefox, geckodriver, and other binaries are installed
-        // PATH = "${env.PATH}:/usr/local/bin:/usr/bin"
-        // GECKO_DRIVER_PATH = "/usr/local/bin/geckodriver"
-    }
-    
     stages {
         stage('Checkout') {
             steps {
