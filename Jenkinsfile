@@ -22,16 +22,16 @@ pipeline {
             steps {
                 script {
                     // Run tests inside Docker container
-                    docker.image("robot-framework-tests:latest".inside {
-                sh 'robot --outputdir results tests/login/'
+                    docker.image("robot-framework-tests:latest").inside {
+                        sh 'robot --outputdir results tests/login/'
                     }
                 }
             }
         }
-        
+
         stage('Cleanup') {
             steps {
-                // Clean up (optional)
+                // Clean up Docker containers
                 sh 'docker rm -f $(docker ps -a -q)'
             }
         }
@@ -39,8 +39,8 @@ pipeline {
 
     post {
         always {
-            // Clean up steps that should always be executed, e.g., removing Docker images
-            sh 'docker rmi -f your-image-name:tag'
+            // Clean up Docker images
+            sh 'docker rmi -f robot-framework-tests:latest'
         }
     }
 }
