@@ -8,27 +8,20 @@ pipeline {
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
-                
-        stage('Install msedgedriver') {
-            steps {
-                script {
-                    // Download msedgedriver
-                    sh 'wget -q -O msedgedriver.zip https://msedgedriver.azureedge.net/109.0.1518.70/edgedriver_linux64.zip'
-                    
-                    // Extract the msedgedriver
-                    sh 'unzip msedgedriver.zip'
-                    
-                    // Make msedgedriver executable
-                    sh 'chmod +x msedgedriver'
-                    
-                    // Move msedgedriver to a location in PATH
-                    sh 'mv msedgedriver /usr/local/bin/'
-                }
-            }
-        }
-
+        
         stage('Install dependencies') {
             steps {
+                // Download msedgedriver using curl
+                sh 'curl -s -o msedgedriver.zip https://msedgedriver.azureedge.net/109.0.1518.70/edgedriver_linux64.zip'
+                    
+                // Extract the msedgedriver
+                sh 'unzip msedgedriver.zip'
+                    
+                // Make msedgedriver executable
+                sh 'chmod +x msedgedriver'
+                    
+                // Move msedgedriver to a location in PATH
+                sh 'mv msedgedriver /usr/local/bin/'
                 // Create a virtual environment
                 sh 'python3 -m venv venv'
                 sh './venv/bin/pip install -r requirement.txt'
