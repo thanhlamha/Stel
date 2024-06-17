@@ -1,46 +1,56 @@
+
 pipeline {
     agent any
-
+    
+    environment {
+        // Define the path to your virtual environment
+        VENV = 'venv'
+        // Define the Python executable within the virtual environment
+        PYTHON_EXECUTABLE = "${VENV}/Scripts/python"
+    }
+    
     stages {
         stage('Checkout') {
             steps {
-                // Checkout your repository
+                // Checkout the repository
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
-
-        stage('Build Docker Image') {
+        
+        stage('Setup Virtual Environment') {
             steps {
-                script {
-                    // Build Docker image
-                    docker.build("robot-framework-tests:latest")
-                }
+                // Create and activate the virtual environment
+                bat "python -m venv ${VENV}"
+                bat "${VENV}\\Scripts\\activate"
             }
         }
-
+        
+        stage('Install Dependencies') {
+            steps {
+                // Install Python dependencies from requirements.txt
+                bat "${PYTHON_EXECUTABLE} -m pip install -r requirement.txt"
+            }
+        }
+        
         stage('Run Tests') {
             steps {
-                script {
-                    // Run tests inside Docker container
-                    docker.image("robot-framework-tests:latest").inside {
-                        sh 'robot --outputdir results tests/login/'
-                    }
-                }
+                // Run Robot Framework tests
+                bat "${PYTHON_EXECUTABLE} -m robot --outputdir results tests/"
             }
         }
-
-        stage('Cleanup') {
+        
+        stage('Publish Results') {
             steps {
-                // Clean up Docker containers
-                sh 'docker rm -f $(docker ps -a -q)'
+                // Archive test results
+                junit 'results/*.xml'
             }
         }
     }
-
+    
     post {
         always {
-            // Clean up Docker images
-            sh 'docker rmi -f robot-framework-tests:latest'
+            // Clean up virtual environment after the build
+            deleteDir()
         }
     }
 }
