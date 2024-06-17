@@ -20,7 +20,7 @@ WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ tr
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết/ Tài khoản"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
     Wait Until Element Is Visible    ${txt_password}
     Input Text    ${txt_password}    qwqe
     Input Text    ${txt_loginCapcha}    qwqe
@@ -44,7 +44,7 @@ WF4X-02 - Kiểm tra chức năng đăng nhập với trường password bỏ tr
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết/ Mật khẩu"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${txt_username}
     Input Text    ${txt_username}    qwqe
@@ -70,7 +70,7 @@ WF4X-03 - Kiểm tra chức năng đăng nhập với trường Capcha bỏ tr�
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết/ Mã xác nhận"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${txt_username}
     Input Text    ${txt_username}    qwqe
@@ -95,7 +95,7 @@ WF4X-04 - Kiểm tra chức năng đăng nhập với trường username và pas
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết / Tài khoản"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${txt_login_capcha}
     Input Text    ${txt_login_capcha}    qwqe
@@ -119,7 +119,7 @@ WF4X-05 - Kiểm tra chức năng đăng nhập với trường username, capcha
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết / Tài khoản"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${btn_login_button}
     Click Element    ${btn_login_button}
@@ -142,7 +142,7 @@ WF4X-06 - Kiểm tra chức năng đăng nhập với trường username và Cap
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết / Mật khẩu"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${txt_password}
     Input Text    ${txt_password}    qwqe
@@ -166,7 +166,7 @@ WF4X-07 - Kiểm tra chức năng đăng nhập với trường password và Cap
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết / Mật khẩu"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${txt_username}
     Input Text    ${txt_username}    qwqe
@@ -191,7 +191,7 @@ WF4X-08 Kiểm tra chức năng đăng nhập với trường Capcha không hợ
     ...               4. Hiển thị thông báo lỗi "Mã xác thực không chính xác"
     [Tags]    Login
     [Timeout]    15s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${txt_username}
     Input Text    ${txt_username}    abc
@@ -215,7 +215,7 @@ WF4X-12 Kiểm tra chức năng đăng nhập với username, password và capch
     ...               3. Hiển thị thông báo lỗi "Mã xác thực không chính xác"
     [Tags]    Login
     [Timeout]    30s
-    [Setup]    Open Browser    ${BASE_URL}    firefox
+    [Setup]    Open Browser    ${BASE_URL}    chrome
 
     Wait Until Element Is Visible    ${txt_username}
     Input Text    ${txt_username}    abc
