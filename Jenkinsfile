@@ -18,24 +18,25 @@ pipeline {
             }
         }
 
-    //     stage('Test') {
-    //         steps {
-    //             // Run Robot Framework tests inside Docker container
-    //             script {
-    //                 docker.image(ROBOT_FRAMEWORK_IMAGE).inside('-v ${WORKSPACE}:/workspace') {
-    //                     bat 'robot --outputdir /workspace/reports tests'
-    //                 }
-    //             }
-    //         }
-    //     }
+       
+    stage('Test') {
+            steps {
+                // Run Robot Framework tests inside Docker container
+                script {
+                    docker.image(ROBOT_FRAMEWORK_IMAGE).inside('-v ${WORKSPACE}:/workspace') {
+                        bat 'robot --outputdir /workspace/reports tests'
+                    }
+                }
+            }
+        }
 
-    //     stage('Publish Results') {
-    //         steps {
-    //             // Publish Robot Framework test results in Jenkins
-    //             junit 'reports/**/*.xml'
-    //         }
-    //     }
-    // }
+    stage('Publish Results') {
+            steps {
+                // Publish Robot Framework test results in Jenkins
+                junit 'reports/**/*.xml'
+            }
+        }
+    }
     
     // Post-build actions, notifications, etc.
     post {
