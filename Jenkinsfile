@@ -9,26 +9,37 @@ pipeline {
             }
         }
     
-    stage('Install dependencies') {
+     stage('Install dependencies') {
             steps {
-                // Install Python and required libraries (if not already installed)
-                // Example with pip:
-                sh 'pip install -r requirement.txt'
+                // Assuming you need Python and Robot Framework installed
+                sh 'pip install robotframework'
+                // Add any other dependencies installation steps here
             }
         }
         
-        stage('Run Tests') {
+        stage('Run tests') {
             steps {
-                // Run Robot Framework tests using a Windows batch script
-                sh 'robot tests\\login/login.robot'
+                // Run your Robot Framework tests
+                sh 'robot path/to/your/tests/*.robot'
+                // You can specify more detailed options here as needed
             }
         }
+        
+        // Add more stages as per your deployment requirements
+        // For example, deploying your application after tests pass
     }
     
     post {
-        always {
-            // Archive the test results for later reference
-            archiveArtifacts artifacts: '**/output.xml', allowEmptyArchive: true
+        success {
+            // Actions to perform when the pipeline succeeds
+            echo 'Tests passed - deployment can proceed'
+            // Add deployment steps here if needed
+        }
+        
+        failure {
+            // Actions to perform when the pipeline fails
+            echo 'Tests failed - deployment halted'
+            // Add any cleanup or notification steps here
         }
     }
 }
