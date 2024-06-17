@@ -14,7 +14,7 @@ pipeline {
     stage('Build') {
             steps {
                 // Install Python dependencies
-                bat 'pip install -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
 
@@ -24,7 +24,7 @@ pipeline {
                 // Run Robot Framework tests inside Docker container
                 script {
                     docker.image(ROBOT_FRAMEWORK_IMAGE).inside('-v ${WORKSPACE}:/workspace') {
-                        bat 'robot --outputdir /workspace/reports tests'
+                        sh 'robot --outputdir /workspace/reports tests'
                     }
                 }
             }
