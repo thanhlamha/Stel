@@ -21,7 +21,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 // Run your Robot Framework tests
-                sh 'robot path/to/your/tests/*.robot'
+                sh 'robot /tests/login/login.robot'
                 // You can specify more detailed options here as needed
             }
         }
