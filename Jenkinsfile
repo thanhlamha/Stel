@@ -20,22 +20,22 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 // Create and activate the virtual environment
-                bat "python -m venv ${VENV}"
-                bat "${VENV}\\Scripts\\activate"
+                sh "python -m venv ${VENV}"
+                sh "${VENV}\\Scripts\\activate"
             }
         }
         
         stage('Install Dependencies') {
             steps {
                 // Install Python dependencies from requirements.txt
-                bat "${PYTHON_EXECUTABLE} -m pip install -r requirement.txt"
+                sh "${PYTHON_EXECUTABLE} -m pip install -r requirement.txt"
             }
         }
         
         stage('Run Tests') {
             steps {
                 // Run Robot Framework tests
-                bat "${PYTHON_EXECUTABLE} -m robot --outputdir results tests/"
+                sh "${PYTHON_EXECUTABLE} -m robot --outputdir results tests/"
             }
         }
         
