@@ -9,29 +9,13 @@ pipeline {
             }
         }
         
+    environment {
+        // Set up environment variables if needed
+        PATH = "${env.PATH}:/usr/local/bin" // Ensure the path includes the directory where drivers are installed
+    }
+            
         stage('Install dependencies') {
             steps {
-             // Create a directory for executables
-                    sh 'mkdir -p ${WORKSPACE}/bin'
-                    
-                    // Download msedgedriver using curl
-                    sh 'curl -s -L -o msedgedriver.zip https://msedgedriver.azureedge.net/109.0.1518.70/edgedriver_linux64.zip'
-                    
-                    // Extract the msedgedriver
-                    sh 'unzip -o msedgedriver.zip -d ${WORKSPACE}/bin'
-                    
-                    // Make msedgedriver executable
-                    sh 'chmod +x ${WORKSPACE}/bin/msedgedriver'
-                    
-                    // Download geckodriver using curl
-                    sh 'curl -s -L -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz'
-                    
-                    // Extract the geckodriver
-                    sh 'tar -xzf geckodriver.tar.gz -C ${WORKSPACE}/bin'
-                    
-                    // Make geckodriver executable
-                    sh 'chmod +x ${WORKSPACE}/bin/geckodriver'
-
                 // Create a virtual environment
                 sh 'python3 -m venv venv'
                 sh './venv/bin/pip install -r requirement.txt'
