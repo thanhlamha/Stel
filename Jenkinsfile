@@ -41,10 +41,10 @@ pipeline {
     // Post-build actions, notifications, etc.
     post {
         success {
-            // Notification or other actions on successful build
+            echo 'Build failed! Sending notifications...'
         }
         failure {
-            // Notification or other actions on failed build
+            echo 'Build failed! Sending notifications...'
         }
     }
 }
