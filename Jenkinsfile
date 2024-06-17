@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         // Ensure the path includes the directory where Firefox, geckodriver, and other binaries are installed
-        PATH = "${env.PATH}:/usr/local/bin:/usr/bin"
+        PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
         CHROME_DRIVER_PATH = "/usr/local/bin/chromedriver"
     }
     
@@ -25,9 +25,17 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                // Run your Robot Framework tests within the virtual environment
-                sh './venv/bin/robot tests/login/login.robot'
-                // Adjust the path to your tests and WebDriver as needed
+                script {
+                    def chromeOptions = new ChromeOptions()
+                    chromeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox")
+                    WebDriver driver = new ChromeDriver(chromeOptions)
+                    
+                    try {
+                        sh './venv/bin/robot tests/login/login.robot'
+                    } finally {
+                        driver.quit()
+                    }
+                }
             }
         }
         
