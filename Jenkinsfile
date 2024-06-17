@@ -1,19 +1,31 @@
 pipeline {
     agent any
     
+    environment {
+        // Define environment variables if needed
+        VENV = "${WORKSPACE}/venv"  // Path to virtual environment
+    }
+    
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from GitHub
+                // Checkout your GitHub repository
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
-    
-     stage('Install dependencies') {
+        
+        stage('Set up environment') {
             steps {
-                // Assuming you need Python and Robot Framework installed
-                sh 'pip install robotframework'
-                // Add any other dependencies installation steps here
+                // Create and activate the virtual environment
+                sh "python -m venv ${VENV}"
+                sh "source ${VENV}/bin/activate"
+            }
+        }
+        
+        stage('Install dependencies') {
+            steps {
+                // Install dependencies from requirements.txt
+                sh "pip install -r requirements.txt"
             }
         }
         
@@ -26,7 +38,6 @@ pipeline {
         }
         
         // Add more stages as per your deployment requirements
-        // For example, deploying your application after tests pass
     }
     
     post {
@@ -40,6 +51,11 @@ pipeline {
             // Actions to perform when the pipeline fails
             echo 'Tests failed - deployment halted'
             // Add any cleanup or notification steps here
+        }
+        
+        always {
+            // Deactivate virtual environment
+            sh "deactivate"
         }
     }
 }
