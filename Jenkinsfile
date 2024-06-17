@@ -13,15 +13,11 @@ pipeline {
             steps {
                 // Create a virtual environment
                 sh 'python3 -m venv venv'
-                
-                // Activate the virtual environment
-                sh 'source venv/bin/activate'
-                
-                // Install packages using pip from requirements.txt
-                sh 'pip install -r requirements.txt'
+                sh './venv/bin/pip install -r requirements.txt'
+
             }
         }
-        
+
         stage('Run tests') {
             steps {
                 // Run your Robot Framework tests
