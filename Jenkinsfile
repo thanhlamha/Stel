@@ -3,7 +3,7 @@ pipeline {
     agent any
     
     environment {
-        PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
+        PATH = "/usr/bin/firefox"
     }
     
     stages {
@@ -23,15 +23,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                    def firefoxOptions = new FirefoxOptions()
-                    firefoxOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox")
-                    WebDriver driver = new FirefoxDriver(firefoxOptions)
-                    
-                    try {
                         sh './venv/bin/robot tests/login/login.robot'
-                    } finally {
-                        driver.quit()
-                    }
                 }
             }
         }
