@@ -11,20 +11,26 @@ pipeline {
         
         stage('Install dependencies') {
             steps {
-                // Download msedgedriver using curl
+             // Create a directory for executables
                     sh 'mkdir -p ${WORKSPACE}/bin'
                     
                     // Download msedgedriver using curl
-                    sh 'curl -s -o msedgedriver.zip https://msedgedriver.azureedge.net/109.0.1518.70/edgedriver_linux64.zip'
+                    sh 'curl -s -L -o msedgedriver.zip https://msedgedriver.azureedge.net/109.0.1518.70/edgedriver_linux64.zip'
                     
                     // Extract the msedgedriver
-                    sh 'unzip -o msedgedriver.zip'
+                    sh 'unzip -o msedgedriver.zip -d ${WORKSPACE}/bin'
                     
                     // Make msedgedriver executable
-                    sh 'chmod +x msedgedriver'
+                    sh 'chmod +x ${WORKSPACE}/bin/msedgedriver'
                     
-                    // Move msedgedriver to the custom bin directory
-                    sh 'mv msedgedriver ${WORKSPACE}/bin/'
+                    // Download geckodriver using curl
+                    sh 'curl -s -L -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz'
+                    
+                    // Extract the geckodriver
+                    sh 'tar -xzf geckodriver.tar.gz -C ${WORKSPACE}/bin'
+                    
+                    // Make geckodriver executable
+                    sh 'chmod +x ${WORKSPACE}/bin/geckodriver'
 
                 // Create a virtual environment
                 sh 'python3 -m venv venv'
