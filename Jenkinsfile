@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         // Set up environment variables if needed
-        PATH = "${env.PATH}:/usr/local/bin" // Ensure the path includes the directory where drivers are installed
+        PATH = "${env.PATH}:/usr/local/bin:/usr/bin"    
     }
     
     stages {
