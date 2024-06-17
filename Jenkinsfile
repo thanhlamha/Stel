@@ -14,16 +14,14 @@ pipeline {
             }
         }
         
-
-        stage('Install dependencies') {
+      stage('Install dependencies') {
             steps {
-                // Set the Python version you want to use
-                sh 'pyenv global 3.9.5'
-                
-                // Install dependencies using pip
+                // Use the installed Python version
+                sh 'python3 --version'  // Check Python version for verification
                 sh 'pip install -r requirements.txt'
             }
         }
+        
      
         
         stage('Run tests') {
