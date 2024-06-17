@@ -1,25 +1,32 @@
 pipeline {
-    agent any  // Use 'any' agent type to allow running on any available agent
-
+    agent any
     
+    environment {
+        ROBOT_FRAMEWORK_IMAGE = 'your-robot-framework-image'
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Start') {
             steps {
-                // Checkout code from GitHub repository
-                git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
+                echo 'Starting Jenkins pipeline...'
             }
         }
-        
-        
-    stage('Build') {
+
+        stage('Checkout') {
+            steps {
+                // Checkout code from GitHub
+                checkout scm
+            }
+        }
+
+        stage('Build') {
             steps {
                 // Install Python dependencies
                 sh 'pip install -r requirements.txt'
             }
         }
 
-       
-    stage('Test') {
+        stage('Test') {
             steps {
                 // Run Robot Framework tests inside Docker container
                 script {
@@ -30,10 +37,16 @@ pipeline {
             }
         }
 
-    stage('Publish Results') {
+        stage('Publish Results') {
             steps {
                 // Publish Robot Framework test results in Jenkins
                 junit 'reports/**/*.xml'
+            }
+        }
+
+        stage('End') {
+            steps {
+                echo 'Jenkins pipeline completed.'
             }
         }
     }
@@ -41,10 +54,10 @@ pipeline {
     // Post-build actions, notifications, etc.
     post {
         success {
-            echo 'Build failed! Sending notifications...'
+            echo 'Pipeline succeeded!'
         }
         failure {
-            echo 'Build failed! Sending notifications...'
+            echo 'Pipeline failed!'
         }
     }
 }
