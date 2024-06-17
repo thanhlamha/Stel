@@ -2,14 +2,14 @@ pipeline {
     agent any
     
     environment {
-        // Set up environment variables if needed
-        PATH = "${env.PATH}:/usr/local/bin:/usr/bin"    
+        // Ensure the path includes the directory where Firefox, geckodriver, and other binaries are installed
+        PATH = "${env.PATH}:/usr/local/bin:/usr/bin"
+        GECKO_DRIVER_PATH = "/usr/local/bin/geckodriver"
     }
     
     stages {
         stage('Checkout') {
             steps {
-                // Checkout your GitHub repository
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
@@ -29,24 +29,24 @@ pipeline {
             }
         }
         
-        // Add more stages as per your deployment requirements
+        stage('Cleanup') {
+            steps {
+                sh 'rm -f geckodriver-*.log'
+            }
+        }
+        
     }
     
     post {
         success {
-            // Actions to perform when the pipeline succeeds
             echo 'Tests passed - deployment can proceed'
-            // Add deployment steps here if needed
         }
         
         failure {
-            // Actions to perform when the pipeline fails
             echo 'Tests failed - deployment halted'
-            // Add any cleanup or notification steps here
         }
         
         always {
-            // Clean up virtual environment
             sh 'rm -rf venv'
         }
     }
