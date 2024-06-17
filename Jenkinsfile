@@ -1,45 +1,46 @@
 pipeline {
-    agent any  // This will run the pipeline on any available agent
+    agent any
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from your GitHub repository
+                // Checkout your repository
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Build Docker Image') {
             steps {
-                // Install any necessary dependencies
-                sh 'pip install -r requirements.txt'
+                script {
+                    // Build Docker image
+                    docker.build("robot-framework-tests:latest")
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Execute your Robot Framework tests
-                sh 'robot --outputdir results tests/'
+                script {
+                    // Run tests inside Docker container
+                    docker.image("robot-framework-tests:latest".inside {
+                sh 'robot --outputdir results tests/login/'
+                    }
+                }
+            }
+        }
+        
+        stage('Cleanup') {
+            steps {
+                // Clean up (optional)
+                sh 'docker rm -f $(docker ps -a -q)'
             }
         }
     }
 
     post {
         always {
-            // Archive test artifacts
-            archiveArtifacts artifacts: 'results/*.html, results/*.png', allowEmptyArchive: true
-            // Publish JUnit test results
-            junit 'results/output.xml'
-        }
-
-        success {
-            echo 'Tests ran successfully!'
-            // Additional actions upon successful build
-        }
-
-        failure {
-            echo 'Tests failed!'
-            // Additional actions upon failed build
+            // Clean up steps that should always be executed, e.g., removing Docker images
+            sh 'docker rmi -f your-image-name:tag'
         }
     }
 }
