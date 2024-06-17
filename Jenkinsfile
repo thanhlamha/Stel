@@ -12,16 +12,20 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Download msedgedriver using curl
-                sh 'curl -s -o msedgedriver.zip https://msedgedriver.azureedge.net/109.0.1518.70/edgedriver_linux64.zip'
+                    sh 'mkdir -p ${WORKSPACE}/bin'
                     
-                // Extract the msedgedriver
-                sh 'unzip msedgedriver.zip'
+                    // Download msedgedriver using curl
+                    sh 'curl -s -o msedgedriver.zip https://msedgedriver.azureedge.net/109.0.1518.70/edgedriver_linux64.zip'
                     
-                // Make msedgedriver executable
-                sh 'chmod +x msedgedriver'
+                    // Extract the msedgedriver
+                    sh 'unzip -o msedgedriver.zip'
                     
-                // Move msedgedriver to a location in PATH
-                sh 'mv msedgedriver /usr/local/bin/'
+                    // Make msedgedriver executable
+                    sh 'chmod +x msedgedriver'
+                    
+                    // Move msedgedriver to the custom bin directory
+                    sh 'mv msedgedriver ${WORKSPACE}/bin/'
+
                 // Create a virtual environment
                 sh 'python3 -m venv venv'
                 sh './venv/bin/pip install -r requirement.txt'
