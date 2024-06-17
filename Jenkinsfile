@@ -25,7 +25,20 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                sh './venv/bin/robot tests/login/login.robot'
+                script {
+                    def firefoxOptions = new org.openqa.selenium.firefox.FirefoxOptions()
+                    firefoxOptions.setHeadless(true) // Điều chỉnh tùy chọn chạy headless nếu cần
+                    
+                    // Chỉ định đường dẫn và tùy chọn cho geckodriver
+                    System.setProperty("webdriver.gecko.driver", GECKODRIVER_PATH)
+                    def driver = new org.openqa.selenium.firefox.FirefoxDriver(firefoxOptions)
+                    
+                    try {
+                        sh './venv/bin/robot tests/login/login.robot'
+                    } finally {
+                        driver.quit()
+                    }
+                }            
             }
         }
         
