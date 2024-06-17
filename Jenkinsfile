@@ -25,9 +25,17 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                // Run your Robot Framework tests within the virtual environment
-                sh './venv/bin/robot tests/login/login.robot'
-                // Adjust the path to your tests as needed
+                script {
+                    def firefoxOptions = new FirefoxOptions()
+                    firefoxOptions.setHeadless(true)
+                    WebDriver driver = new FirefoxDriver(firefoxOptions)
+                    
+                    try {
+                        sh './venv/bin/robot tests/login/login.robot'
+                    } finally {
+                        driver.quit()
+                    }
+                }
             }
         }
         
