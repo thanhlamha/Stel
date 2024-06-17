@@ -1,31 +1,24 @@
 pipeline {
-    agent {
-        docker {
-            // Use the official Python with Robot Framework Docker image
-            image 'python:3.9-slim'
-            label 'docker'
-            args '-u root'  // Ensure Docker container runs with root user for permissions
-        }
-    }
-    
+    agent any  // This will run the pipeline on any available agent
+
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the repository
+                // Checkout the code from your GitHub repository
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // Install Python dependencies using pip
+                // Install any necessary dependencies
                 sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run Robot Framework tests
+                // Execute your Robot Framework tests
                 sh 'robot --outputdir results tests/'
             }
         }
@@ -33,23 +26,20 @@ pipeline {
 
     post {
         always {
-            // Publish Robot Framework test results
-            junit 'results/output.xml'
-
-            // Archive artifacts (e.g., logs, screenshots)
+            // Archive test artifacts
             archiveArtifacts artifacts: 'results/*.html, results/*.png', allowEmptyArchive: true
+            // Publish JUnit test results
+            junit 'results/output.xml'
         }
 
         success {
             echo 'Tests ran successfully!'
-
-            // Send notifications, integrate with other systems, etc.
+            // Additional actions upon successful build
         }
 
         failure {
             echo 'Tests failed!'
-
-            // Send notifications, take remedial actions, etc.
+            // Additional actions upon failed build
         }
     }
 }
