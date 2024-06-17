@@ -1,21 +1,15 @@
 pipeline {
-    agent any
-    
+    agent any // Use 'any' agent type to allow running on any available agent
+
     environment {
-        ROBOT_FRAMEWORK_IMAGE = 'your-robot-framework-image'
+        ROBOT_FRAMEWORK_IMAGE = 'your-robot-framework-image' // Replace with your Docker image containing Robot Framework
     }
 
     stages {
-        stage('Start') {
-            steps {
-                echo 'Starting Jenkins pipeline...'
-            }
-        }
-
         stage('Checkout') {
             steps {
-                // Checkout code from GitHub
-                checkout scm
+                // Checkout code from GitHub repository
+                git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
 
@@ -43,21 +37,28 @@ pipeline {
                 junit 'reports/**/*.xml'
             }
         }
-
-        stage('End') {
-            steps {
-                echo 'Jenkins pipeline completed.'
-            }
-        }
     }
-    
+
     // Post-build actions, notifications, etc.
     post {
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Pipeline succeeded! Sending notifications...'
+            // Example: Send email notification on success
+            emailext (
+                to: 'your-email@example.com',
+                subject: "Jenkins Build Successful: ${currentBuild.fullDisplayName}",
+                body: "Build URL: ${env.BUILD_URL}"
+            )
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline failed! Sending notifications...'
+            // Example: Send email notification on failure
+            emailext (
+                to: 'your-email@example.com',
+                subject: "Jenkins Build Failed: ${currentBuild.fullDisplayName}",
+                body: "Build URL: ${env.BUILD_URL}",
+                attachLog: true  // Attach Jenkins build log on failure
+            )
         }
     }
 }
