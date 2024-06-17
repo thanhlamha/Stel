@@ -11,24 +11,39 @@ pipeline {
         }
         
         
-        stage('Run Robot Framework Tests') {
+    stage('Build') {
             steps {
-                // Execute Robot Framework tests inside Docker container
-                script {
-                        sh 'robot tests/login/login.robot'  // Adjusted path to your .robot file
-                }
+                // Install Python dependencies
+                bat 'pip install -r requirements.txt'
             }
         }
-    }
+
+    //     stage('Test') {
+    //         steps {
+    //             // Run Robot Framework tests inside Docker container
+    //             script {
+    //                 docker.image(ROBOT_FRAMEWORK_IMAGE).inside('-v ${WORKSPACE}:/workspace') {
+    //                     bat 'robot --outputdir /workspace/reports tests'
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     stage('Publish Results') {
+    //         steps {
+    //             // Publish Robot Framework test results in Jenkins
+    //             junit 'reports/**/*.xml'
+    //         }
+    //     }
+    // }
     
+    // Post-build actions, notifications, etc.
     post {
         success {
-            echo "Robot Framework tests executed successfully"
-            // Add actions upon successful execution
+            // Notification or other actions on successful build
         }
         failure {
-            echo "Robot Framework tests failed"
-            // Add actions upon failure
+            // Notification or other actions on failed build
         }
     }
 }
