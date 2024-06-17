@@ -1,2 +1,3 @@
-robotframework
-robotframework-seleniumlibrary
+robotframework==4.1
+robotframework-seleniumlibrary==5.2.0
+selenium==4.1.0

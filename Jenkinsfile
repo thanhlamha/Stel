@@ -8,6 +8,14 @@ pipeline {
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
+    
+    stage('Install dependencies') {
+            steps {
+                // Install Python and required libraries (if not already installed)
+                // Example with pip:
+                sh 'pip install -r requirement.txt'
+            }
+        }
         
         stage('Run Tests') {
             steps {
