@@ -2,14 +2,14 @@ pipeline {
     agent any
     
     environment {
-        // Ensure the path includes the directory where Firefox, geckodriver, and other binaries are installed
-        PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
-        CHROME_DRIVER_PATH = "/usr/bin/firefox"
-    }
+        // Set up environment variables if needed
+        PATH = "${env.PATH}:/usr/local/bin:/usr/bin"
+        GECKO_DRIVER_PATH = "/usr/bin/firefox"    }
     
     stages {
         stage('Checkout') {
             steps {
+                // Checkout your GitHub repository
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
@@ -25,24 +25,9 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                script {
-                    def chromeOptions = new ChromeOptions()
-                    chromeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox")
-                    WebDriver driver = new ChromeDriver(chromeOptions)
-                    
-                    try {
-                        sh './venv/bin/robot tests/login/login.robot'
-                    } finally {
-                        driver.quit()
-                    }
-                }
-            }
-        }
-        
-        stage('Cleanup') {
-            steps {
-                // Delete geckodriver log files
-                sh 'rm -f geckodriver-*.log'
+                // Run your Robot Framework tests within the virtual environment
+                sh './venv/bin/robot tests/login/login.robot'
+                // Adjust the path to your tests as needed
             }
         }
         
