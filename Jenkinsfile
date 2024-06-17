@@ -12,7 +12,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 // Run Robot Framework tests using a Windows batch script
-                sh 'python -m robot tests\\login/login.robot'
+                sh 'robot tests\\login/login.robot'
             }
         }
     }
