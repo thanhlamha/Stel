@@ -1,12 +1,6 @@
 pipeline {
     agent any
     
-    environment {
-        // Define the path to your virtual environment
-        VENV_PATH = "${WORKSPACE}/venv"
-        PATH = "$VENV_PATH/bin:$PATH"
-    }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -15,20 +9,18 @@ pipeline {
             }
         }
         
-        stage('Set up virtual environment') {
-            steps {
-                sh "python3 -m venv $VENV_PATH"
-                sh "source $VENV_PATH/bin/activate"
-            }
-        }
-        
         stage('Install dependencies') {
             steps {
+                // Create a virtual environment
+                sh 'python3 -m venv venv'
+                
+                // Activate the virtual environment
+                sh 'source venv/bin/activate'
+                
+                // Install packages using pip from requirements.txt
                 sh 'pip install -r requirements.txt'
             }
         }
-        
-     
         
         stage('Run tests') {
             steps {
