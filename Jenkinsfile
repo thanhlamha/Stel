@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Ensure the path includes the directory where Firefox, geckodriver, and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin"
-        GECKO_DRIVER_PATH = "/usr/local/bin/geckodriver"
+        CHROME_DRIVER_PATH = "/usr/local/bin/chromedriver"
     }
     
     stages {
