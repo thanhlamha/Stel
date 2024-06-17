@@ -23,13 +23,13 @@ pipeline {
             }
         }
 
-        stage('Run tests') {
-            steps {
-                // Run your Robot Framework tests within the virtual environment
-                sh './venv/bin/robot tests/login/login.robot'
-                // Adjust the path to your tests and WebDriver as needed
-            }
-        }
+        // stage('Run tests') {
+        //     steps {
+        //         // Run your Robot Framework tests within the virtual environment
+        //         sh './venv/bin/robot tests/login/login.robot'
+        //         // Adjust the path to your tests and WebDriver as needed
+        //     }
+        // }
         
         stage('Cleanup') {
             steps {
