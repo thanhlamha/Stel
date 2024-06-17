@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     environment {
-        // Define environment variables if needed
-        VENV = "${WORKSPACE}/venv"  // Path to virtual environment
+        // Add Python to PATH
+        PATH = "C:/PythonXX;$PATH"  // Replace "C:/PythonXX" with the actual path to your Python installation
     }
     
     stages {
@@ -14,20 +14,17 @@ pipeline {
             }
         }
         
-        stage('Set up environment') {
-            steps {
-                // Create and activate the virtual environment
-                sh "python -m venv ${VENV}"
-                sh "source ${VENV}/bin/activate"
-            }
-        }
-        
+
         stage('Install dependencies') {
             steps {
-                // Install dependencies from requirements.txt
-                sh "pip install -r requirements.txt"
+                // Set the Python version you want to use
+                sh 'pyenv global 3.9.5'
+                
+                // Install dependencies using pip
+                sh 'pip install -r requirements.txt'
             }
         }
+     
         
         stage('Run tests') {
             steps {
