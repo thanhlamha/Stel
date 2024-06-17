@@ -18,10 +18,10 @@ pipeline {
             }
         }
 
-        stage('Run tests') {
+        stage('Run tests') {http://localhost:8080/job/Lam/22/console
             steps {
                 // Run your Robot Framework tests
-                sh 'robot tests/login/login.robot'
+                sh './venv/bin/robot tests/login/login.robot'
                 // You can specify more detailed options here as needed
             }
         }
