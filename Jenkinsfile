@@ -1,6 +1,11 @@
 pipeline {
     agent any
     
+    environment {
+        // Set up environment variables if needed
+        PATH = "${env.PATH}:/usr/local/bin" // Ensure the path includes the directory where drivers are installed
+    }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -8,26 +13,21 @@ pipeline {
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
-        
-    environment {
-        // Set up environment variables if needed
-        PATH = "${env.PATH}:/usr/local/bin" // Ensure the path includes the directory where drivers are installed
-    }
             
         stage('Install dependencies') {
             steps {
                 // Create a virtual environment
                 sh 'python3 -m venv venv'
+                // Install dependencies within the virtual environment
                 sh './venv/bin/pip install -r requirement.txt'
-
             }
         }
 
-        stage('Run tests') {http://localhost:8080/job/Lam/22/console
+        stage('Run tests') {
             steps {
-                // Run your Robot Framework tests
+                // Run your Robot Framework tests within the virtual environment
                 sh './venv/bin/robot tests/login/login.robot'
-                // You can specify more detailed options here as needed
+                // Adjust the path to your tests as needed
             }
         }
         
@@ -48,8 +48,8 @@ pipeline {
         }
         
         always {
-            // Deactivate virtual environment
-            sh "deactivate"
+            // Clean up virtual environment
+            sh 'rm -rf venv'
         }
     }
 }
