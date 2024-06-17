@@ -26,6 +26,10 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
+                    import org.openqa.selenium.WebDriver
+                    import org.openqa.selenium.firefox.FirefoxDriver
+                    import org.openqa.selenium.firefox.FirefoxOptions
+
                     def firefoxOptions = new FirefoxOptions()
                     firefoxOptions.setHeadless(true)
                     WebDriver driver = new FirefoxDriver(firefoxOptions)
