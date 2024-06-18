@@ -22,7 +22,6 @@ pipeline {
             }
         }
 
-
         stage('Run tests') {
             steps {
                 script {
@@ -34,14 +33,14 @@ pipeline {
                         sh "./venv/bin/robot --outputdir results tests/login/login.robot"
                     }
                 }
-            
+            }
+        }
         
         stage('Cleanup') {
             steps {
                 sh 'rm -f geckodriver-*.log'
             }
         }
-        
     }
     
     post {
