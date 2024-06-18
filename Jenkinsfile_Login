@@ -15,12 +15,12 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 sh '''
-                apt-get update
-                apt-get install -y firefox
+                sudo apt-get update
+                sudo apt-get install -y firefox
                 wget https://github.com/mozilla/geckodriver/releases/download/v0.32.0/geckodriver-v0.32.0-linux64.tar.gz
                 tar -xvzf geckodriver-v0.32.0-linux64.tar.gz
-                mv geckodriver /usr/local/bin/
-                chmod +x /usr/local/bin/geckodriver
+                sudo mv geckodriver /usr/local/bin/
+                sudo chmod +x /usr/local/bin/geckodriver
                 # Create a virtual environment
                 python3 -m venv venv
                 # Install dependencies within the virtual environment
