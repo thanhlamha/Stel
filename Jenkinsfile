@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        // Ensure the path includes the directory where ChromeDriver and other binaries are installed
+        // Ensure the peath inclu des the directory where ChromeDriver and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
     }
     
@@ -28,12 +28,9 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                // echo "${params.NameTag}"
-                // echo "${params.Domain}"
                 // sh './venv/bin/robot tests/login/login.robot'
-                sh 'chmod +x ./venv/bin/activate'
-                sh './venv/bin/activate && chmod +x ./venv/bin/robot tests/login/login.robot && ./venv/bin/robot tests/login/login.robot --include tag_name'
-                
+                sh './venv/bin/robot --outputdir results --include Login --exclude BLOCK tests/login/login.robot'
+
             }
         }
         
