@@ -1,6 +1,15 @@
 pipeline {
     agent any
-    
+    parameters {
+        string(name: 'Nametag', defaultValue: 'Uthred', description: 'Enter your name')
+        choice(name: 'Domain', choices: ['ABC', 'DEF', '0123'], description: 'Choose your domain')
+    }
+        stages {
+            stage('Example') {
+            steps {
+                echo "${params.NameTag}"
+                echo "${params.Domain}"
+            }
     environment {
         // Ensure the path includes the directory where Firefox, geckodriver, and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin"
