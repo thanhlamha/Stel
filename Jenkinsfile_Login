@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    
     environment {
         // Ensure the peath inclu des the directory where ChromeDriver and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
@@ -25,16 +25,14 @@ pipeline {
         stage('Run tests') {
             steps {
                 // sh './venv/bin/robot tests/login/login.robot'
-                sh './venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
+                sh './venv/bin/robot --outputdir results --include Login --exclude BLOCK tests/login/login.robot'
 
             }
         }
         
         stage('Cleanup') {
             steps {
-                echo 'Tests failed - deployment halted'
-
-                // sh 'rm -f geckodriver-*.log'
+                sh 'rm -f geckodriver-*.log'
             }
         }
         
