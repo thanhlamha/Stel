@@ -4,8 +4,7 @@ pipeline {
     environment {
         // Ensure the PATH includes the directory where ChromeDriver and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
-        CHROME_BIN = "/usr/bin/google-chrome"
-        CHROME_DRIVER = "/path/to/chromedriver"  // Update with your ChromeDriver path    
+        CHROME_DRIVER = "/usr/local/bin/chromedriver"  // Update with your ChromeDriver path    
     }
     
     stages {
