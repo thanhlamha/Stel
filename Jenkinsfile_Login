@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    parameters {
+        choice(name: 'TAGS', choices: ['Login', 'BLOCK'], description: 'Choose your domain')
+    }
     
     environment {
         // Ensure the PATH includes the directory where ChromeDriver and other binaries are installed
