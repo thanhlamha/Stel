@@ -29,10 +29,14 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                    def tagsOption = params.TAGS ? params.TAGS.trim() : ''
-                    echo "Tags option: '${tagsOption}'"
+                    // Debugging statements
+                    echo "Selected TAGS value: ${params.TAGS}"
                     echo "Parameters - Name: ${params.Nametag}, Domain: ${params.Domain}, TAGS: ${params.TAGS}"
 
+                    // Trim and use tagsOption if needed
+                    def tagsOption = params.TAGS ? params.TAGS.trim() : ''
+                    
+                    // Run Robot Framework command with selected tags
                     if (tagsOption) {
                         sh "./venv/bin/robot --outputdir results --include ${tagsOption} tests/login/login.robot"
                     } else {
