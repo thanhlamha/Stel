@@ -25,7 +25,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                    def tagsOption = params.TAGS ? params.TAGS.trim() : ''
+                    def tagsOption = params.TAGS ? params.TAGS
                     if (tagsOption) {
                         sh "./venv/bin/robot --outputdir results --include ${tagsOption} tests/login/login.robot"
                     } else {
