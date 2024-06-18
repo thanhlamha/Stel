@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        choice(name: 'TAGS', choices: ['Login', 'BLOCK'], description: 'Choose your domain')
-    }
-    
     environment {
         // Ensure the PATH includes the directory where ChromeDriver and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
@@ -30,18 +26,8 @@ pipeline {
             steps {
                 script {
                     // Debugging statements
-                    echo "Selected TAGS value: ${params.Tags}"
-                    echo "Parameters - Name: ${params.Nametag}, Domain: ${params.Domain}, TAGS: ${params.TAGS}"
 
-                    // Trim and use tagsOption if needed
-                    def tagsOption = params.TAGS ? params.TAGS.trim() : ''
-                    
-                    // Run Robot Framework command with selected tags
-                    if (tagsOption) {
-                        sh "./venv/bin/robot --outputdir results --include ${tagsOption} tests/login/login.robot"
-                    } else {
-                        sh "./venv/bin/robot --outputdir results tests/login/login.robot"
-                    }
+                        sh "./venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot"
                 }
             }
         }
