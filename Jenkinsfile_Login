@@ -26,12 +26,18 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                        def chromeOptions = [
-                            "--headless",
-                            "--disable-gpu",
-                            "--no-sandbox",
-                            "--disable-dev-shm-usage"
-                        ]
+                    def chromeOptions = [
+                        "--start-maximized",
+                        "--test-type",
+                        "--no-sandbox",
+                        "--ignore-certificate-errors",
+                        "--disable-popup-blocking",
+                        "--disable-default-apps",
+                        "--disable-extensions-file-access-check",
+                        "--incognito",
+                        "--disable-infobars",
+                        "--disable-gpu"
+                    ]
                     // Debugging statements
                         sh "./venv/bin/robot --outputdir results --include ${params.TAGS} --variable CHROME_DRIVER:${CHROME_DRIVER} tests/login/login.robot"
 
