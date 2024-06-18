@@ -39,7 +39,8 @@ pipeline {
                         "--disable-gpu"
                     ]
                     // Debugging statements
-                        sh "./venv/bin/robot --outputdir results --include ${params.TAGS} --variable CHROME_DRIVER:${CHROME_DRIVER} tests/login/login.robot"
+
+                        sh "./venv/bin/robot --outputdir results --include ${params.TAGS} --variable CHROME_DRIVER:${CHROME_DRIVER} --variable CHROME_OPTIONS:'${chromeOptions.join(";")}' tests/login/login.robot"
 
                         // sh "./venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot"
                 }
