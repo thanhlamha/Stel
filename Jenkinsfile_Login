@@ -1,12 +1,6 @@
 pipeline {
     agent any
     
-    environment {
-        GECKODRIVER_VERSION = "0.34.0"
-        GECKODRIVER_URL = "https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz"
-        GECKODRIVER_DIR = "/usr/local/bin"  // Assuming this is in your PATH
-    }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -23,23 +17,11 @@ pipeline {
             }
         }
 
-        stage('Install Firefox and GeckoDriver') {
-            steps {
-                // Install Firefox
-                sh 'apt-get update && apt-get install -y firefox'
-
-                // Download and install GeckoDriver
-                sh "wget ${env.GECKODRIVER_URL} -O geckodriver.tar.gz"
-                sh "tar -xzf geckodriver.tar.gz -C ${env.GECKODRIVER_DIR}"
-                sh "chmod +x ${env.GECKODRIVER_DIR}/geckodriver"
-                sh "rm geckodriver.tar.gz"
-            }
-        }
-
         stage('Run tests') {
             steps {
-                // Run Robot Framework tests, including specific tags if provided as a parameter
+                // sh './venv/bin/robot tests/login/login.robot'
                 sh './venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
+
             }
         }
         
