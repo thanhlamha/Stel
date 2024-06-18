@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    parameters {
+        choice(name: 'TAGS', choices: ['Login', 'BLOCK'], description: 'Choose your domain')
+    }
     
     environment {
         // Ensure the PATH includes the directory where ChromeDriver and other binaries are installed
@@ -26,6 +30,8 @@ pipeline {
             steps {
                 script {
                     // Debugging statements
+                    echo "Selected TAGS value: ${params.TAGS}"
+                    echo "Parameters - Name: ${params.Nametag}, Domain: ${params.Domain}, TAGS: ${params.TAGS}"
 
                     // Trim and use tagsOption if needed
                     def tagsOption = params.TAGS ? params.TAGS.trim() : ''
