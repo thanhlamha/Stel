@@ -30,7 +30,8 @@ pipeline {
             steps {
                 // echo "${params.NameTag}"
                 // echo "${params.Domain}"
-                sh './venv/bin/robot tests/login/login.robot --include tag_name'
+                // sh './venv/bin/robot tests/login/login.robot --include tag_name'
+                sh 'source venv/bin/activate && robot tests/login/login.robot --include tag_name'
                 
             }
         }
