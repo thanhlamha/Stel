@@ -27,6 +27,8 @@ pipeline {
                 script {
                     def tagsOption = params.TAGS ? params.TAGS.trim() : ''
                     echo "Tags option: '${tagsOption}'"
+                    echo "Parameters - Name: ${params.Nametag}, Domain: ${params.Domain}, TAGS: ${params.TAGS}"
+
                     if (tagsOption) {
                         sh "./venv/bin/robot --outputdir results --include ${tagsOption} tests/login/login.robot"
                     } else {
