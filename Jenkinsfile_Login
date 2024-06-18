@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PATH = "$PATH:/usr/local/bin"  // Ensure geckodriver is in the PATH
+        /opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin
     }
     
     stages {
@@ -14,12 +15,8 @@ pipeline {
             
         stage('Install dependencies') {
             steps {
-                sh '''
-                # Create a virtual environment
-                python3 -m venv venv
-                # Install dependencies within the virtual environment
-                ./venv/bin/pip install -r requirements.txt
-                '''
+                sh 'python3 -m venv venv'
+                sh './venv/bin/pip install -r requirement.txt'
             }
         }
 
