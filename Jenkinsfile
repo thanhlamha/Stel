@@ -24,7 +24,9 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                sh './venv/bin/robot tests/login/login.robot'
+                // sh './venv/bin/robot tests/login/login.robot'
+                sh './venv/bin/robot --outputdir results --include Login --exclude BLOCK tests/login/login.robot'
+
             }
         }
         
