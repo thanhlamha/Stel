@@ -26,23 +26,9 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                    def chromeOptions = [
-                        "--start-maximized",
-                        "--test-type",
-                        "--no-sandbox",
-                        "--ignore-certificate-errors",
-                        "--disable-popup-blocking",
-                        "--disable-default-apps",
-                        "--disable-extensions-file-access-check",
-                        "--incognito",
-                        "--disable-infobars",
-                        "--disable-gpu"
-                    ]
                     // Debugging statements
 
-                        sh "./venv/bin/robot --outputdir results --include ${params.TAGS} --variable CHROME_DRIVER:${CHROME_DRIVER} --variable CHROME_OPTIONS:'${chromeOptions.join(";")}' tests/login/login.robot"
-
-                        // sh "./venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot"
+                        sh "./venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot"
                 }
             }
         }
