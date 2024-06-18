@@ -28,8 +28,8 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                echo "${params.NameTag}"
-                echo "${params.Domain}"
+                // echo "${params.NameTag}"
+                // echo "${params.Domain}"
                 sh './venv/bin/robot tests/login/login.robot'
                 
             }
