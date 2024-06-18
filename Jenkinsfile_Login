@@ -1,6 +1,10 @@
 pipeline {
     agent any
-    
+    parameters {
+        string(name: 'Nametag', defaultValue: 'Uthred', description: 'Enter your name')
+        choice(name: 'Domain', choices: ['ABC', 'DEF', '0123'], description: 'Choose your domain')
+    }
+
     environment {
         // Ensure the peath inclu des the directory where ChromeDriver and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"

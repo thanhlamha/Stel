@@ -164,7 +164,7 @@ WF4X-07 - Kiểm tra chức năng đăng nhập với trường password và Cap
     ...               1. Hiển thị trang Đăng nhập
     ...               2. N/A
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết / Mật khẩu"
-    [Tags]    Login
+    [Tags]    Login    ABC
     [Timeout]    15s
     [Setup]    Open Browser    ${BASE_URL}    chrome
 
