@@ -13,23 +13,24 @@ pipeline {
             }
         }
             
-        stage('Install dependencies') {
+        stage('Setup Xvfb') {
             steps {
-                // Create a virtual environment
-                sh 'python3 -m venv venv'
-                // Install dependencies within the virtual environment
-                sh './venv/bin/pip install -r requirements.txt'
+                sh 'Xvfb :99 -ac &'
             }
         }
 
-        stage('Run tests') {
+        stage('Checkout') {
             steps {
-                // sh './venv/bin/robot tests/login/login.robot'
-                sh './venv/bin/robot --outputdir results --variable BROWSER:headlessfirefox --include Login --exclude BLOCK tests/login/login.robot'
-
+                // Checkout code from repository
             }
         }
-        
+
+        stage('Run Tests') {
+            steps {
+                sh './venv/bin/robot --outputdir results tests/login/login.robot'
+            }
+        }    
+
         // stage('Cleanup') {
         //     steps {
         //         sh 'rm -f geckodriver-*.log'
