@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        // Ensure the path inclu des the directory where ChromeDriver and other binaries are installed
+        // Ensure the peath inclu des the directory where ChromeDriver and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
     }
     
