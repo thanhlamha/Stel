@@ -1,11 +1,11 @@
 pipeline {
     agent any
     
-    parameters {
-        string(name: 'Nametag', defaultValue: 'Tags', description: 'Enter your name')
-        choice(name: 'Domain', choices: ['Login', 'BLOCK'], description: 'Choose your domain')
-        string(name: 'TAGS', defaultValue: '', description: 'Enter tags to include in test run (comma-separated)')
-    }
+    // parameters {
+    //     string(name: 'Nametag', defaultValue: 'Tags', description: 'Enter your name')
+    //     choice(name: 'Domain', choices: ['Login', 'BLOCK'], description: 'Choose your domain')
+    //     string(name: 'TAGS', defaultValue: '', description: 'Enter tags to include in test run (comma-separated)')
+    // }
 
     environment {
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
