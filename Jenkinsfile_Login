@@ -1,12 +1,13 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'Nametag', defaultValue: 'Uthred', description: 'Enter your name')
-        choice(name: 'Domain', choices: ['ABC', 'DEF', '0123'], description: 'Choose your domain')
-    }
+    
+    // parameters {
+    //     string(name: 'Nametag', defaultValue: 'Uthred', description: 'Enter your name')
+    //     choice(name: 'Domain', choices: ['ABC', 'DEF', '0123'], description: 'Choose your domain')
+    //     string(name: 'TAGS', defaultValue: '', description: 'Enter tags to include in test run (comma-separated)')
+    // }
 
     environment {
-        // Ensure the peath inclu des the directory where ChromeDriver and other binaries are installed
         PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
     }
     
@@ -28,8 +29,14 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                sh './venv/bin/robot --outputdir results --include Login tests/login/login.robot'
-
+                script {
+                    def tagsOption = params.TAGS.trim()
+                    if (tagsOption) {
+                        sh "./venv/bin/robot --outputdir results --include ${tagsOption} tests/login/login.robot"
+                    } else {
+                        sh "./venv/bin/robot --outputdir results tests/login/login.robot"
+                    }
+                }
             }
         }
         
