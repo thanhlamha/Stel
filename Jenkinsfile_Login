@@ -23,7 +23,13 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                bat 'robot --outputdir results --include %TAGS% tests\\'
+
+                    script {
+                    def tags = params.TAGS.join(' OR ')
+                    // Run Robot Framework tests including the selected tags
+                    bat 'robot --outputdir results --include %TAGS% tests\\'
+                }
+
             }
         }
         
