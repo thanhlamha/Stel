@@ -18,7 +18,7 @@ WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ tr
     ...               1. Hiển thị trang Đăng nhập.
     ...               2. N/A
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết/ Tài khoản"
-    [Tags]    Fogot-Password
+    [Tags]    Fogot-Password    UnitTest
     [Timeout]    15s
     [Setup]    Open Browser    ${BASE_URL}    chrome
     Wait Until Element Is Visible    ${txt_password}
@@ -42,7 +42,7 @@ WF4X-02 - Kiểm tra chức năng đăng nhập với trường password bỏ tr
     ...               1. Hiển thị trang Đăng nhập.
     ...               2. N/A
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết/ Mật khẩu"
-    [Tags]    Fogot-Password
+    [Tags]    Fogot-Password    UnitTest
     [Timeout]    15s
     [Setup]    Open Browser    ${BASE_URL}    chrome
 
