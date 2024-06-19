@@ -23,7 +23,7 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                bat 'robot --outputdir results --include ${params.TAGS} tests\\login\\login.robot'
+                bat 'robot --outputdir results --include %TAGS% tests\\login\\login.robot'
             }
         }
         
