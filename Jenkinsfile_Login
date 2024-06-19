@@ -1,5 +1,11 @@
 pipeline {
+    
     agent any
+        environment {
+        // Set the path to your Python installation and virtual environment
+        VENV_PATH = 'C:\\Users\\STEL\\venv'
+        PATH = "${VENV_PATH}\\Scripts;${env.PATH}"
+    }
     
     stages {
         stage('Checkout') {
@@ -8,21 +14,15 @@ pipeline {
             }
         }
             
-        stage('Install dependencies') {
-            steps {
-                // Create a virtual environment
-                // sh 'python3 -m venv venv'
-                // Install dependencies within the virtual environment
-                sh 'install -r requirements.txt'
-            }
-        }
+        // stage('Install dependencies') {
+        //     steps {
+        //         bat 'pip install -r requirements.txt'
+        //     }
+        // }
 
         stage('Run tests') {
             steps {
-                echo 'fhkasggshghj'
-
-                // Run the robot framework tests
-                sh 'robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
+                bat 'robot --outputdir results --include %TAGS% tests\\login\\login.robot'
             }
         }
         
@@ -41,7 +41,7 @@ pipeline {
         //     script {
         //         // Ensure the cleanup command is executable
         //         if (fileExists('venv')) {
-        //             sh 'rm -rf venv'
+        //             bat 'rm -rf venv'
         //         } else {
         //             echo 'Virtual environment not found; skipping cleanup'
         //         }
