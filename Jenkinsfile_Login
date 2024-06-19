@@ -25,7 +25,7 @@ pipeline {
             steps {
 
                     script {
-                    def tags = params.TAGS.join(' OR ')
+                    def tags = params.TAGS ? params.TAGS.split(',').join(' OR ') : ''
                     // Run Robot Framework tests including the selected tags
                     bat 'robot --outputdir results --include %TAGS% tests\\'
                 }
