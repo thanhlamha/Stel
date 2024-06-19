@@ -1,24 +1,13 @@
 pipeline {
     agent any
     
-    environment {
-        // Ensure the PATH includes the directory where ChromeDriver and other binaries are installed
-        PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
-    }
-    
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
-        
-        stage('Setup Xvfb') {
-            steps {
-                sh 'Xvfb :99 -ac &'
-            }
-        }
-
+            
         stage('Install dependencies') {
             steps {
                 // Create a virtual environment
@@ -28,19 +17,20 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Run tests') {
             steps {
-                sh './venv/bin/robot --outputdir results tests/login/login.robot'
-            }
-        }    
+                // sh './venv/bin/robot tests/login/login.robot'
+                sh './venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
 
-        /* Optional: Cleanup stage if needed
-        stage('Cleanup') {
-            steps {
-                sh 'rm -f geckodriver-*.log'
             }
         }
-        */
+        
+        // stage('Cleanup') {
+        //     steps {
+        //         sh 'rm -f geckodriver-*.log'
+        //     }
+        // }
+        
     }
     
     post {
@@ -53,7 +43,6 @@ pipeline {
         }
         
         always {
-            // Always clean up the virtual environment
             sh 'rm -rf venv'
         }
     }
