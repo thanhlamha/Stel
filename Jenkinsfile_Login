@@ -8,19 +8,19 @@ pipeline {
             }
         }
             
-        stage('Install dependencies') {
-            steps {
-                // Create a virtual environment
-                sh 'python3 -m venv venv'
-                // Install dependencies within the virtual environment
-                sh './venv/bin/pip install -r requirements.txt'
-            }
-        }
+        // stage('Install dependencies') {
+        //     steps {
+        //         // Create a virtual environment
+        //         // sh 'python3 -m venv venv'
+        //         // Install dependencies within the virtual environment
+        //         // sh './venv/bin/pip install -r requirements.txt'
+        //     }
+        // }
 
         stage('Run tests') {
             steps {
                 // Run the robot framework tests
-                sh './venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
+                sh 'robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
             }
         }
         
@@ -35,15 +35,15 @@ pipeline {
             echo 'Tests failed - deployment halted'
         }
         
-        always {
-            script {
-                // Ensure the cleanup command is executable
-                if (fileExists('venv')) {
-                    sh 'rm -rf venv'
-                } else {
-                    echo 'Virtual environment not found; skipping cleanup'
-                }
-            }
-        }
+        // always {
+        //     script {
+        //         // Ensure the cleanup command is executable
+        //         if (fileExists('venv')) {
+        //             sh 'rm -rf venv'
+        //         } else {
+        //             echo 'Virtual environment not found; skipping cleanup'
+        //         }
+        //     }
+        // }
     }
 }
