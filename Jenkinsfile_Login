@@ -19,6 +19,8 @@ pipeline {
 
         stage('Run tests') {
             steps {
+                echo 'fhkasggshghj'
+
                 // Run the robot framework tests
                 sh 'robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
             }
