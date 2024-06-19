@@ -19,17 +19,10 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                // sh './venv/bin/robot tests/login/login.robot'
+                // Run the robot framework tests
                 sh './venv/bin/robot --outputdir results --include ${params.TAGS} tests/login/login.robot'
-
             }
         }
-        
-        // stage('Cleanup') {
-        //     steps {
-        //         sh 'rm -f geckodriver-*.log'
-        //     }
-        // }
         
     }
     
@@ -43,7 +36,14 @@ pipeline {
         }
         
         always {
-            sh 'rm -rf venv'
+            script {
+                // Ensure the cleanup command is executable
+                if (fileExists('venv')) {
+                    sh 'rm -rf venv'
+                } else {
+                    echo 'Virtual environment not found; skipping cleanup'
+                }
+            }
         }
     }
 }
