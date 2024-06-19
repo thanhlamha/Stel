@@ -1,28 +1,36 @@
 pipeline {
-    
     agent any
-        environment {
-        // Set the path to your Python installation and virtual environment
-        VENV_PATH = 'C:\\Users\\STEL\\venv'
-        PATH = "${VENV_PATH}\\Scripts;${env.PATH}"
+    
+    environment {
+        PATH = "D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
     
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', credentialsId: '6314ed17-e1f7-4c32-a229-25fbc493a2dc', url: 'https://github.com/thanhlamha/Stel.git'
+                git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
             
         // stage('Install dependencies') {
         //     steps {
-        //         bat 'pip install -r requirements.txt'
+        //         // Create a virtual environment
+        //         bat 'python -m venv venv'
+        //         // Install dependencies within the virtual environment
+        //         bat '.\\venv\\Scripts\\pip install -r requirements.txt'
         //     }
         // }
 
         stage('Run tests') {
             steps {
-                bat 'robot --outputdir results --include %TAGS% tests\\login\\login.robot'
+                bat 'robot --outputdir results --include ${params.TAGS} tests\\login\\login.robot'
+            }
+        }
+        
+        stage('Cleanup') {
+            steps {
+                // Delete the virtual environment directory
+                echo 'Tests passed - deployment can proceed'
             }
         }
         
@@ -37,15 +45,8 @@ pipeline {
             echo 'Tests failed - deployment halted'
         }
         
-        // always {
-        //     script {
-        //         // Ensure the cleanup command is executable
-        //         if (fileExists('venv')) {
-        //             bat 'rm -rf venv'
-        //         } else {
-        //             echo 'Virtual environment not found; skipping cleanup'
-        //         }
-        //     }
-        // }
+        always {
+            echo 'Tests failed - deployment halted'
+        }
     }
 }
