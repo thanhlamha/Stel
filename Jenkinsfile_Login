@@ -49,7 +49,7 @@ pipeline {
     }
 
     post {
-  success {
+        success {
             script {
                 // Gửi email khi build thành công
                 emailext (
