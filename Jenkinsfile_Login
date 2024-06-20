@@ -15,13 +15,12 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                def selectedTestCases = params.TAGS.split(',')
-                    // Build the command with separate --include options for each tag
-                    // def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
-                    // // Run Robot Framework tests including the selected tags
-                    // def robotCommand = "robot --outputdir results ${includeOptions} tests\\"
-                    echo "Running command: ${selectedTestCases}"
-                    // bat robotCommand
+                    def selectedTestCases = params.TAGS.split(',')
+                    def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
+                    def excludeOptions = "--exclude ^BLOCK-.* --exclude FixAT"
+                    def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} tests\\"
+                    echo "Running command: ${robotCommand}"
+                    bat robotCommand
                 }
             }
         }
