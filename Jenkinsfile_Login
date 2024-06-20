@@ -49,16 +49,33 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'Tests passed - deployment can proceed'
+  success {
+            script {
+                // Gửi email khi build thành công
+                emailext (
+                    subject: "Build Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>successfully</b> completed.</p>
+                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
+                    to: 'lamha.work2011@gmail.com'
+                )
+            }
         }
 
         failure {
-            echo 'Tests failed - deployment halted'
+            script {
+                // Gửi email khi build thất bại
+                emailext (
+                    subject: "Build Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>failed</b>.</p>
+                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
+                    to: 'lamha.work2011@gmail.com'
+                )
+            }
         }
 
         always {
             echo 'Pipeline completed'
         }
+    }
     }
 }
