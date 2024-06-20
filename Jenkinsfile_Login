@@ -14,7 +14,7 @@ pipeline {
 
                     // Install dependencies and start server
                     bat 'npm install'
-                    bat 'start "" npm start' // Use 'start ""' to start it in a new window
+                    bat 'start /B npm start'
                 }
             }
         }
