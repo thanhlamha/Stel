@@ -68,7 +68,7 @@ WF4X-03 - Kiểm tra chức năng đăng nhập với trường Capcha bỏ tr�
     ...               1. Hiển thị trang Đăng nhập
     ...               2. N/A
     ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết/ Mã xác nhận"
-    [Tags]    Login    BLOCK
+    [Tags]    Login    BLOCK-WF401
     [Timeout]    15s
     [Setup]    Open Browser    ${BASE_URL}    chrome
 
