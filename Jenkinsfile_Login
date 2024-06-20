@@ -19,10 +19,30 @@ pipeline {
             }
         }
 
+        stage('Wait for server to start') {
+            steps {
+                script {
+                    def serverStarted = false
+                    waitUntil {
+                        try {
+                            def response = bat(script: 'powershell -Command "try { (Invoke-WebRequest -Uri http://localhost:3000).StatusCode } catch { $_.Exception.Response.StatusCode }"', returnStdout: true).trim()
+                            echo "Server response: ${response}"
+                            serverStarted = response == '200'
+                        } catch (Exception e) {
+                            echo "Server not yet started: ${e}"
+                        }
+                        return serverStarted
+                    }
+                }
+            }
+        }
+
         stage('Checkout test repo') {
             steps {
                 // Clone the test repository from GitHub
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
+                dir('test_repo') {
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
+                }
             }
         }
 
@@ -37,6 +57,12 @@ pipeline {
                     echo "Running command: ${robotCommand}"
                     bat robotCommand
                 }
+            }
+        }
+
+        stage('Publish Robot Framework Results') {
+            steps {
+                publishRobotResults outputPath: 'results'
             }
         }
 
@@ -76,6 +102,5 @@ pipeline {
         always {
             echo 'Pipeline completed'
         }
-    }
     }
 }
