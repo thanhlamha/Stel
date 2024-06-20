@@ -44,7 +44,7 @@ pipeline {
 
         stage('Publish Robot Framework Results') {
             steps {
-                publishRobotResults outputPath: 'results'
+                junit 'results/*.xml'
             }
         }
 
