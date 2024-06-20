@@ -15,8 +15,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
-                    // Get the selected test cases
-                    def selectedTestCases = params.TAGS.split(',')
+                def selectedTestCases = params.TAGS.split(',')
                     // Build the command with separate --include options for each tag
                     def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
                     // Run Robot Framework tests including the selected tags
