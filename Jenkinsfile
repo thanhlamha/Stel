@@ -1,58 +1,50 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'Nametag', defaultValue: 'Uthred', description: 'Enter your name')
-        choice(name: 'Domain', choices: ['ABC', 'DEF', '0123'], description: 'Choose your domain')
-    }
 
     environment {
-        // Ensure the peath inclu des the directory where ChromeDriver and other binaries are installed
-        PATH = "${env.PATH}:/usr/local/bin:/usr/bin:/opt/google/chrome"
+        PATH = "D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
         }
-            
-        stage('Install dependencies') {
-            steps {
-                // Create a virtual environment
-                sh 'python3 -m venv venv'
-                // Install dependencies within the virtual environment
-                sh './venv/bin/pip install -r requirements.txt'
-            }
-        }
 
         stage('Run tests') {
             steps {
-                // sh './venv/bin/robot tests/login/login.robot'
-                sh './venv/bin/robot --outputdir results --include Login --exclude BLOCK tests/login/login.robot'
-
+                script {
+                    // Get the selected test cases
+                    def selectedTestCases = params.TAGS.split(',')
+                    def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
+                    def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
+                    def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} tests\\"
+                    echo "Running command: ${robotCommand}"
+                    bat robotCommand
+                }
             }
         }
-        
+
         stage('Cleanup') {
             steps {
-                sh 'rm -f geckodriver-*.log'
+                echo 'Cleaning up after tests'
+                // Add any cleanup steps if necessary, such as deleting temporary files
             }
         }
-        
     }
-    
+
     post {
         success {
             echo 'Tests passed - deployment can proceed'
         }
-        
+
         failure {
             echo 'Tests failed - deployment halted'
         }
-        
+
         always {
-            sh 'rm -rf venv'
+            echo 'Pipeline completed'
         }
     }
 }

@@ -6,7 +6,19 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout dev repo') {
+            steps {
+                git branch: 'main', credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git'
+            }
+        }
+
+        stage('install dependencies') {
+            steps {
+                git branch: 'main', credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git'
+            }
+        }
+
+        stage('Checkout test repo') {
             steps {
                 git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
             }
