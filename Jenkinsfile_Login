@@ -2,46 +2,44 @@ pipeline {
     agent any
 
     environment {
-        PATH = "D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
+        PATH = "C:\\Program Files\\nodejs\\;D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
 
     stages {
-        stage('Checkout dev repo and start server') {
+        stage('Checkout dev repo') {
             steps {
-                // Checkout the dev repository
-                script {
-                    def repoDir = checkout scm
-                    // 'repoDir' will contain the path to the cloned repository
-                    echo "Path to dev repo: ${repoDir}"
+                    // Clone the dev repository from GitHub
+                    dir('dev_repo') {
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git']]])
                     
-                    // Navigate to the repository directory
-                    dir(repoDir) {
-                        // Install dependencies and start server using npm
-                        bat 'npm start'  // Adjust as per your npm start command
-                    }
+                    // Install dependencies and start server
+                    sh 'npm start'
                 }
             }
         }
 
-        stage('Checkout test repo and run tests') {
+        stage('Install Dependencies') {
             steps {
-                // Checkout the test repository
+                    bat "npm start"     
+                }
+        }
+
+        stage('Checkout test repo') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
+            }
+        }
+
+        stage('Run tests') {
+            steps {
                 script {
-                    def testRepoDir = checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
-                    
-                    // 'testRepoDir' will contain the path to the cloned test repository
-                    echo "Path to test repo: ${testRepoDir}"
-                    
-                    // Navigate to the repository directory
-                    dir(testRepoDir) {
-                        // Run tests using Robot Framework or other testing framework
-                        script {
-                            def selectedTestCases = params.TAGS.split(',')
-                            def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
-                            def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
-                            bat "robot --outputdir results ${includeOptions} ${excludeOptions} tests\\"
-                        }
-                    }
+                    // Get the selected test cases
+                    def selectedTestCases = params.TAGS.split(',')
+                    def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
+                    def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
+                    def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} tests\\"
+                    echo "Running command: ${robotCommand}"
+                    bat robotCommand
                 }
             }
         }
@@ -49,7 +47,7 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up after tests'
-                // Add any cleanup steps if necessary
+                // Add any cleanup steps if necessary, such as deleting temporary files
             }
         }
     }
@@ -58,9 +56,11 @@ pipeline {
         success {
             echo 'Tests passed - deployment can proceed'
         }
+
         failure {
             echo 'Tests failed - deployment halted'
         }
+
         always {
             echo 'Pipeline completed'
         }
