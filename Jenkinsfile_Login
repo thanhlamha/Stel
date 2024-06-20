@@ -12,10 +12,10 @@ pipeline {
             }
         }
 
-        stage('install dependencies') {
+        stage('Install Dependencies') {
             steps {
-                git branch: 'main', credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git'
-            }
+                    bat "npm start"     
+                }
         }
 
         stage('Checkout test repo') {
