@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        // Active Choices Parameter allows multiple selections via checkboxes
-        extendedChoice(name: 'TEST_CASES', type: 'PT_CHECKBOX', multiSelectDelimiter: ',', value: 'Login,Forgot-Password,BLOCK', description: 'Select test cases to include', quoteValue: false)
-    }
-
     environment {
         PATH = "D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
@@ -21,7 +16,7 @@ pipeline {
             steps {
                 script {
                     // Get the selected test cases
-                    def selectedTestCases = params.TEST_CASES.split(',')
+                    def selectedTestCases = params.TAGS.split(',')
                     // Build the command with separate --include options for each tag
                     def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
                     // Run Robot Framework tests including the selected tags
