@@ -42,12 +42,6 @@ pipeline {
             }
         }
 
-        stage('Publish Robot Framework Results') {
-            steps {
-                junit 'results/*.xml'
-            }
-        }
-
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up after tests'
