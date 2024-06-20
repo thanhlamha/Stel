@@ -19,26 +19,6 @@ pipeline {
             }
         }
 
-        stage('Wait for server to start') {
-            steps {
-                timeout(time: 1, unit: 'MINUTES') {
-                    script {
-                        def serverStarted = false
-                        waitUntil {
-                            try {
-                                def response = bat(script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:3000', returnStdout: true).trim()
-                                echo "Server response: ${response}"
-                                serverStarted = response == '200'
-                            } catch (Exception e) {
-                                echo "Server not yet started: ${e}"
-                            }
-                            return serverStarted
-                        }
-                    }
-                }
-            }
-        }
-
         stage('Checkout test repo') {
             steps {
                 // Clone the test repository from GitHub
