@@ -1,10 +1,15 @@
 pipeline {
     agent any
-    
+
+    parameters {
+        // Active Choices Parameter allows multiple selections via checkboxes
+        extendedChoice(name: 'TEST_CASES', type: 'PT_CHECKBOX', multiSelectDelimiter: ',', value: 'Login,Forgot-Password,BLOCK', description: 'Select test cases to include', quoteValue: false)
+    }
+
     environment {
         PATH = "D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -14,36 +19,38 @@ pipeline {
 
         stage('Run tests') {
             steps {
-
-                    script {
+                script {
+                    // Get the selected test cases
                     def selectedTestCases = params.TEST_CASES.split(',')
-                    def tags = selectedTestCases.collect { "--include ${it}" }.join(' ')
-                    bat "robot --outputdir results %TAGS% tests\\"
+                    // Build the command with separate --include options for each tag
+                    def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
+                    // Run Robot Framework tests including the selected tags
+                    def robotCommand = "robot --outputdir results ${includeOptions} tests\\"
+                    echo "Running command: ${robotCommand}"
+                    bat robotCommand
                 }
-
             }
         }
-        
+
         stage('Cleanup') {
             steps {
-                // Delete the virtual environment directory
-                echo 'Tests passed - deployment can proceed'
+                echo 'Cleaning up after tests'
+                // Add any cleanup steps if necessary, such as deleting temporary files
             }
         }
-        
     }
-    
+
     post {
         success {
             echo 'Tests passed - deployment can proceed'
         }
-        
+
         failure {
             echo 'Tests failed - deployment halted'
         }
-        
+
         always {
-            echo 'Tests failed - deployment halted'
+            echo 'Pipeline completed'
         }
     }
 }
