@@ -19,24 +19,6 @@ pipeline {
             }
         }
 
-        stage('Wait for server to start') {
-            steps {
-                script {
-                    def serverStarted = false
-                    waitUntil {
-                        try {
-                            def response = bat(script: 'powershell -Command "try { (Invoke-WebRequest -Uri http://localhost:3000).StatusCode } catch { $_.Exception.Response.StatusCode }"', returnStdout: true).trim()
-                            echo "Server response: ${response}"
-                            serverStarted = response == '200'
-                        } catch (Exception e) {
-                            echo "Server not yet started: ${e}"
-                        }
-                        return serverStarted
-                    }
-                }
-            }
-        }
-
         stage('Checkout test repo') {
             steps {
                 // Clone the test repository from GitHub
