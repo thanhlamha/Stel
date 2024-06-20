@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PATH = "C:\\Program Files\\nodejs\\;D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
+        EMAIL_TO = 'lamha.work2011@gmail.com'    
     }
 
     stages {
@@ -58,27 +59,15 @@ pipeline {
 
     post {
         success {
-            script {
-                // Gửi email khi build thành công
-                emailext (
-                    subject: "Build Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
-                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>successfully</b> completed.</p>
-                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
-                    to: 'lamha.work2011@gmail.com'
-                )
-            }
+            emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
         }
 
         failure {
-            script {
-                // Gửi email khi build thất bại
-                emailext (
-                    subject: "Build Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
-                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>failed</b>.</p>
-                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
-                    to: 'lamha.work2011@gmail.com'
-                )
-            }
+            emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
+                    to: "${EMAIL_TO}", 
+                    subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
         }
 
         always {
