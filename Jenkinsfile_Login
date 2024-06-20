@@ -14,15 +14,15 @@ pipeline {
                     
                     // Install dependencies and start server
                     bat 'npm install'
-                    bat 'npm start'
+                    bat 'npm start &'
+                // Wait for the server to start by pinging the URL
+                    timeout(time: 5, unit: 'MINUTES') {
+                    waitUntil {
+                        def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:3000", returnStatus: true)
+                        return response == 200
+                    }
                 }
             }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                    bat "npm start"     
-                }
         }
 
         stage('Checkout test repo') {
