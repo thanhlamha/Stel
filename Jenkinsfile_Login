@@ -2,11 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PATH = "D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
-
-        // Adding additional Node.js path
-        PATH += ";C:\\Program Files\\nodejs\\"
-        
+        PATH = "C:\\Program Files\\nodejs\\;D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
 
     stages {
