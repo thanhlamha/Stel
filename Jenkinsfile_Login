@@ -15,9 +15,10 @@ pipeline {
         stage('Run tests') {
             steps {
                 script {
+                    // Get the selected test cases
                     def selectedTestCases = params.TAGS.split(',')
                     def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
-                    def excludeOptions = "--exclude ^BLOCK-.* --exclude FixAT"
+                    def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
                     def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} tests\\"
                     echo "Running command: ${robotCommand}"
                     bat robotCommand
