@@ -16,8 +16,9 @@ pipeline {
             steps {
 
                     script {
-                    def tags = params.TAGS ? params.TAGS.split(',').join(' OR ') : ''
-                    bat 'robot --outputdir results --include %TAGS% tests\\'
+                    def selectedTestCases = params.TEST_CASES.split(',')
+                    def tags = selectedTestCases.collect { "--include ${it}" }.join(' ')
+                    bat "robot --outputdir results %TAGS% tests\\"
                 }
 
             }
