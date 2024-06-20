@@ -11,10 +11,6 @@ This PR updates/creates the automated test case for XYZ feature.
 - Updated/Added test case XYZ
 - ...
 
-### Test Report
-<!-- Provide a link to the test report generated for this test case -->
-[Test Report](https://link-to-your-test-report)
-
 ### Checklist
 <!-- Check the following items after creating the PR -->
 - [ ] Code follows coding guidelines
@@ -22,6 +18,10 @@ This PR updates/creates the automated test case for XYZ feature.
 - [ ] Test report link provided
 - [ ] Resolved conflicts with the main branch
 - [ ] Cleaned up code (removed commented-out code, unused imports, etc.)
+
+### Test Report
+<!-- Provide a link to the test report generated for this test case -->
+[Test Report](https://link-to-your-test-report)
 
 ## Related Issues
 <!-- Mention any related issues or tasks -->
