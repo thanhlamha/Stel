@@ -38,57 +38,34 @@ pipeline {
                 }
             }
         }
-
-        stage('Cleanup') {
-            steps {
-                echo 'Cleaning up after tests'
-                script {
-                    if (fileExists('dev_repo')) {
-                        echo 'Deleting dev_repo directory'
-                        deleteDir(path: 'dev_repo')
-                    } else {
-                        echo 'dev_repo directory does not exist'
-                    }
-
-                    // Remove test_repo directory if it exists
-                    if (fileExists('test_repo')) {
-                        echo 'Deleting test_repo directory'
-                        deleteDir(path: 'test_repo')
-                    } else {
-                        echo 'test_repo directory does not exist'
-                    }
-                }
-            }
-        }
     }
 
     post {
         success {
-            echo 'Pipeline completed'
-
+            echo 'Pipeline completed successfully'
         }
 
         failure {
-            echo 'Pipeline completed'
-
+            echo 'Pipeline failed'
         }
 
         always {
-            echo 'Pipeline completed'
-            
-            // Cleanup after pipeline run
-            script {
-                // Reset environment variables if needed
-                env.PATH = "${env.PATH_DEFAULT}"
+            echo 'Cleaning up after pipeline run'
 
-                // Additional cleanup
+            // Cleanup logic
+            script {
                 def workspaceDirs = ['dev_repo', 'test_repo', 'results', 'node_modules']
                 workspaceDirs.each { dir ->
                     if (fileExists(dir)) {
                         echo "Deleting ${dir} directory in post section"
-                        deleteDir(path: dir)
+                        deleteDir(dir)
+                    } else {
+                        echo "${dir} directory does not exist"
                     }
                 }
+
+                // Reset environment variables if needed
+                env.PATH = "${env.PATH_DEFAULT}"
             }
         }
     }
