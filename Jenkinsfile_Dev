@@ -5,14 +5,29 @@ pipeline {
         PATH = "C:\\Program Files\\nodejs\\;D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
 
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+    }
+
     stages {
+        stage('Cleanup Workspace') {
+            steps {
+                // Clean the workspace to avoid conflicts with existing references
+                cleanWs()
+            }
+        }
 
         stage('Checkout dev repo and start server') {
             steps {
                 // Clone the dev repository from GitLab
                 dir('dev_repo') {
-                    checkout([$class: 'GitSCM', branches: [[name: "test-branch"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git']]])
-
+                    script {
+                        // Fetch all branches to ensure references are up-to-date
+                        git url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git', credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144'
+                        bat "git fetch --all"
+                        bat "git checkout ${params.BRANCH_NAME}"
+                    }
+                    
                     // Install dependencies and start server
                     bat 'npm install'
                     bat 'start /B npm start'
@@ -24,7 +39,7 @@ pipeline {
             steps {
                 // Clone the test repository from GitHub
                 dir('test_repo') {
-                    checkout([$class: 'GitSCM', branches: [[name: "main"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
                 }
             }
         }
@@ -53,13 +68,27 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed'
-
+            script {
+                // Send email when build is successful
+                emailext (
+                    subject: "Build Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>successfully</b> completed.</p>
+                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
+                    to: 'lamha.work2011@gmail.com'
+                )
+            }
         }
 
         failure {
-            echo 'Pipeline completed'
-
+            script {
+                // Send email when build fails
+                emailext (
+                    subject: "Build Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
+                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>failed</b>.</p>
+                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
+                    to: 'lamha.work2011@gmail.com'
+                )
+            }
         }
 
         always {
