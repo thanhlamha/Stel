@@ -5,18 +5,7 @@ pipeline {
         PATH = "C:\\Program Files\\nodejs\\;D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
     }
 
-    parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
-    }
-
     stages {
-        stage('Cleanup Workspace') {
-            steps {
-                // Clean the workspace to avoid conflicts with existing references
-                cleanWs()
-            }
-        }
-
         stage('Checkout dev repo and start server') {
             steps {
                 // Clone the dev repository from GitLab
@@ -72,27 +61,13 @@ pipeline {
 
     post {
         success {
-            script {
-                // Send email when build is successful
-                emailext (
-                    subject: "Build Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
-                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>successfully</b> completed.</p>
-                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
-                    to: 'lamha.work2011@gmail.com'
-                )
-            }
+                        echo 'Pipeline completed'
+
         }
 
         failure {
-            script {
-                // Send email when build fails
-                emailext (
-                    subject: "Build Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
-                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>failed</b>.</p>
-                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
-                    to: 'lamha.work2011@gmail.com'
-                )
-            }
+                        echo 'Pipeline completed'
+
         }
 
         always {
