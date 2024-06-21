@@ -23,7 +23,7 @@ pipeline {
             steps {
                 // Clone the test repository from GitHub
                 dir('test_repo') {
-                    checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '6314ed17-e1f7-4c32-a229-25fbc493a2dc', url: 'https://github.com/thanhlamha/Stel.git']]])
 
                     // Fetch all branches and checkout the specified one
                     bat "git fetch --all"
