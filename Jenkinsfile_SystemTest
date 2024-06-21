@@ -6,18 +6,18 @@ pipeline {
     }
 
     stages {
-        stage('Checkout dev repo and start server') {
-            steps {
-                // Clone the dev repository from GitLab
-                dir('dev_repo') {
-                    checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git']]])
+        // stage('Checkout dev repo and start server') {
+        //     steps {
+        //         // Clone the dev repository from GitLab
+        //         dir('dev_repo') {
+        //             checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git']]])
 
-                    // Install dependencies and start server
-                    bat 'npm install'
-                    bat 'start /B npm start'
-                }
-            }
-        }
+        //             // Install dependencies and start server
+        //             bat 'npm install'
+        //             bat 'start /B npm start'
+        //         }
+        //     }
+        // }
 
         // stage('Checkout test repo') {
         //     steps {
