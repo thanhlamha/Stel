@@ -19,14 +19,16 @@ pipeline {
             }
         }
 
-
         stage('Checkout test repo') {
             steps {
                 // Clone the test repository from GitHub
                 dir('test_repo') {
                     checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git']]])
-                        bat "git fetch --all"
-                        bat "git checkout ${params.BRANCH_NAME}"                }
+
+                    // Fetch all branches and checkout the specified one
+                    bat "git fetch --all"
+                    bat "git checkout ${params.BRANCH_NAME}"
+                }
             }
         }
 
@@ -37,7 +39,7 @@ pipeline {
                     def selectedTestCases = params.TAGS.split(',')
                     def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
                     def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
-                    def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} tests\\"
+                    def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} test_repo\\tests\\"
                     echo "Running command: ${robotCommand}"
                     bat robotCommand
                 }
@@ -47,24 +49,30 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up after tests'
-                // Add any cleanup steps if necessary, such as deleting temporary files
+
+                // Remove dev_repo and test_repo directories
+                deleteDir(path: 'dev_repo')
+                deleteDir(path: 'test_repo')
+
+                // Add any additional cleanup steps as needed
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed'
-
+            echo 'Pipeline completed successfully'
+            // Additional actions if needed upon success
         }
 
         failure {
-            echo 'Pipeline completed'
-
+            echo 'Pipeline completed with failure'
+            // Additional actions if needed upon failure
         }
 
         always {
             echo 'Pipeline completed'
+            // Always execute cleanup actions
         }
     }
 }

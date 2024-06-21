@@ -40,7 +40,7 @@ pipeline {
                     def selectedTestCases = params.TAGS.split(',')
                     def includeOptions = selectedTestCases.collect { "--include ${it}" }.join(' ')
                     def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
-                    def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} tests\\"
+                    def robotCommand = "robot --outputdir results ${includeOptions} ${excludeOptions} test_repo\\tests\\"
                     echo "Running command: ${robotCommand}"
                     bat robotCommand
                 }
