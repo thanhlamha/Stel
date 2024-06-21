@@ -62,18 +62,6 @@ pipeline {
                         echo 'test_repo directory does not exist'
                     }
                 }
-
-                // Add any additional cleanup steps if necessary, such as deleting temporary files
-                // For example, if there are temporary files or directories created during the pipeline run
-                script {
-                    def tempDirs = ['results', 'node_modules']
-                    tempDirs.each { dir ->
-                        if (fileExists(dir)) {
-                            echo "Deleting ${dir} directory"
-                            deleteDir(path: dir)
-                        }
-                    }
-                }
             }
         }
     }
