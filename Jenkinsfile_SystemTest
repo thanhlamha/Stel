@@ -13,8 +13,8 @@ pipeline {
                     checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '9a0003e4-8da5-4a72-ab68-bdad98022144', url: 'https://gitlab.com/thanhlamha/login-app-react-hooks.git']]])
 
                     // Install dependencies and start server
-                    // bat 'npm install'
-                    // bat 'start /B npm start'
+                    bat 'npm install'
+                    bat 'start /B npm start'
                 }
             }
         }
@@ -28,41 +28,25 @@ pipeline {
             }
         }
 
-        // stage('Run tests') {
-        //     steps {
-        //         script {
-        //             def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
-        //             def robotCommand = "robot --outputdir results ${excludeOptions} test_repo\\tests\\"
-        //             echo "Running command: ${robotCommand}"
-        //             bat robotCommand
-        //         }
-        //     }
-        // }
+        stage('Run tests') {
+            steps {
+                script {
+                    def excludeOptions = "--exclude BLOCK-* --exclude FixAT"
+                    def robotCommand = "robot --outputdir results ${excludeOptions} test_repo\\tests\\"
+                    echo "Running command: ${robotCommand}"
+                    bat robotCommand
+                }
+            }
+        }
     }
 
     post {
     success {
         echo 'Pipeline completed successfully'
-
-        // Send success notification to Slack
-        slackSend (
-            channel: '#integration-pipeline',
-            color: 'good',
-            message: 'Pipeline completed successfully',
-            tokenCredentialId: 'c0bb1095-49ca-4f48-8ae7-3ce8fa739043'
-        )
     }
 
     failure {
         echo 'Pipeline completed with failures'
-
-        // Send failure notification to Slack
-        slackSend (
-            channel: '#integration-pipeline',
-            color: 'danger',
-            message: 'Pipeline completed with failures',
-            tokenCredentialId: 'c0bb1095-49ca-4f48-8ae7-3ce8fa739043'
-        )
     }
 
     always {
