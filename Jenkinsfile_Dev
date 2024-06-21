@@ -52,27 +52,13 @@ pipeline {
 
     post {
         success {
-            script {
-                // Send email when build is successful
-                emailext (
-                    subject: "Build Successful: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
-                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>successfully</b> completed.</p>
-                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
-                    to: 'lamha.work2011@gmail.com'
-                )
-            }
+            echo 'Pipeline completed'
+
         }
 
         failure {
-            script {
-                // Send email when build fails
-                emailext (
-                    subject: "Build Failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]",
-                    body: """<p>Build <b>${env.JOB_NAME} [${env.BUILD_NUMBER}]</b> has <b>failed</b>.</p>
-                             <p>Check the build details <a href="${env.BUILD_URL}">here</a>.</p>""",
-                    to: 'lamha.work2011@gmail.com'
-                )
-            }
+            echo 'Pipeline completed'
+
         }
 
         always {
