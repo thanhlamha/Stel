@@ -45,7 +45,6 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up after tests'
-                // Remove dev_repo directory if it exists
                 script {
                     if (fileExists('dev_repo')) {
                         echo 'Deleting dev_repo directory'
