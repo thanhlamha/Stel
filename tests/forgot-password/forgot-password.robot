@@ -225,3 +225,27 @@ WF4X-12 Kiểm tra chức năng đăng nhập với username, password và capch
     Page Should Contain    ${invalidCapcha}    timeout=5s
     
     [Teardown]    Close Browser
+
+WF4X-13 - Kiểm tra chức năng đăng nhập với trường username bỏ trống
+    [Documentation]   WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ trống
+    ...               Author: Lam Ha
+    ...               Steps:
+    ...               1. Mở URL :  https://omnicxm.worldfone.cloud/
+    ...               2. Bỏ trống User name, nhập password và capcha
+    ...               3. Click nút [Đăng Nhập]
+    ...               
+    ...               Expected
+    ...               1. Hiển thị trang Đăng nhập.
+    ...               2. N/A
+    ...               3. Hiển thị thông báo lỗi "Thiếu giá trị các trường cần thiết/ Tài khoản"
+    [Tags]    UnitTest
+    [Timeout]    15s
+    [Setup]    Open Browser    ${BASE_URL}    chrome
+    Wait Until Element Is Visible    ${txt_password}
+    Input Text    ${txt_password}    qwqe
+    Input Text    ${txt_loginCapcha}    qwqe
+    Click Element    ${btn_login_button}
+    Page Should Contain    ${missingFields}
+    Page Should Contain    Tài khoản
+
+    [Teardown]    Close Browser
