@@ -46,36 +46,6 @@ pipeline {
             }
         }
 
-    stage('Cleanup') {
-        steps {
-            echo 'Cleaning up after tests'
-
-            // Remove dev_repo directory if it exists
-            script {
-                def devRepoDir = new File("${env.WORKSPACE}/dev_repo")
-                if (devRepoDir.exists()) {
-                    echo "Deleting dev_repo directory"
-                    deleteDir(path: 'dev_repo')
-                } else {
-                    echo "dev_repo directory does not exist"
-                }
-            }
-
-            // Remove test_repo directory if it exists
-            script {
-                def testRepoDir = new File("${env.WORKSPACE}/test_repo")
-                if (testRepoDir.exists()) {
-                    echo "Deleting test_repo directory"
-                    deleteDir(path: 'test_repo')
-                } else {
-                    echo "test_repo directory does not exist"
-                }
-            }
-
-            // Add any additional cleanup steps as needed
-        }
-    }
-
     }
 
     post {
