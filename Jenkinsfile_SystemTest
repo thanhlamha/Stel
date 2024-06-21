@@ -43,10 +43,12 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully'
+            slackSend (channel: '#intergration-pipeline', color: 'good', message: "Pipeline ${env.JOB_NAME} build ${env.BUILD_NUMBER} succeeded")
         }
 
         failure {
             echo 'Pipeline failed'
+            slackSend (channel: '#intergration-pipeline', color: 'danger', message: "Pipeline ${env.JOB_NAME} build ${env.BUILD_NUMBER} failed")
         }
 
         always {
