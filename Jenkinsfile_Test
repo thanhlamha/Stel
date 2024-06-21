@@ -22,12 +22,9 @@ pipeline {
             steps {
                 // Clone the test repository from GitHub
                 dir('test_repo') {
-                    script {
                         // Fetch all branches to ensure references are up-to-date
-                        git url: 'https://github.com/thanhlamha/Stel.git', credentialsId: '6314ed17-e1f7-4c32-a229-25fbc493a2dc'
-                        bat "git fetch --all"
+                        checkout([$class: 'GitSCM', branches: [[name: 'main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '6314ed17-e1f7-4c32-a229-25fbc493a2dc', url: 'https://github.com/thanhlamha/Stel.git']]])
                         bat "git checkout ${params.BRANCH_NAME}"
-                    }
                 }
             }
         }
