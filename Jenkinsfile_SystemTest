@@ -39,16 +39,16 @@ pipeline {
             }
         }
     }
-
+/
     post {
         success {
             echo 'Pipeline completed successfully'
-            slackSend(channel: '#integration-pipeline', color: 'good', message: 'Pipeline completed successfully', tokenCredentialId: 'zSL0NLB47Nqk2iTmMCjPZePm')
+            slackSend(channel: '#integration-pipeline', color: 'good', message: 'Pipeline completed successfully', tokenCredentialId: 'c0bb1095-49ca-4f48-8ae7-3ce8fa739043')
         }
 
         failure {
             echo 'Pipeline failed'
-            slackSend(channel: '#integration-pipeline', color: 'danger', message: 'Pipeline failed', tokenCredentialId: 'zSL0NLB47Nqk2iTmMCjPZePm')
+            slackSend(channel: '#integration-pipeline', color: 'danger', message: 'Pipeline failed', tokenCredentialId: 'c0bb1095-49ca-4f48-8ae7-3ce8fa739043')
         }
 
         always {
