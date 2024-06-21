@@ -48,7 +48,7 @@ pipeline {
 
         stage('Cleanup') {
             steps {
-                echo 'Cleaning up after tests
+                echo 'Cleaning up after tests'
 
                 // Add any additional cleanup steps as needed
             }
