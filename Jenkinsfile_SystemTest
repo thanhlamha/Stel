@@ -53,22 +53,6 @@ pipeline {
 
         always {
             echo 'Cleaning up after pipeline run'
-
-            // Cleanup logic
-            script {
-                def workspaceDirs = ['dev_repo', 'test_repo', 'results', 'node_modules']
-                workspaceDirs.each { dir ->
-                    if (fileExists(dir)) {
-                        echo "Deleting ${dir} directory in post section"
-                        deleteDir(dir)
-                    } else {
-                        echo "${dir} directory does not exist"
-                    }
-                }
-
-                // Reset environment variables if needed
-                env.PATH = "${env.PATH_DEFAULT}"
-            }
         }
     }
 }
