@@ -1,7 +1,7 @@
 *** Settings ***
-Resource    ../../resources/locators/login/login_locators.robot
-Resource    ../../resources/variables/general.robot
-Resource    ../../resources/variables/login/login_variables.robot
+Resource    ../../../resources/locators/login/login_locators.robot
+Resource    ../../../resources/variables/general.robot
+Resource    ../../../resources/variables/login/login_variables.robot
 
 Library    SeleniumLibrary
 
