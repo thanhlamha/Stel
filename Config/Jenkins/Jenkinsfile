@@ -29,7 +29,6 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo 'Cleaning up after tests'
-                // Add any cleanup steps if necessary, such as deleting temporary files
             }
         }
     }
