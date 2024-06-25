@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+    
+    environment {
+        PATH = "D:\\chromedriver-win64\\chromedriver-win64;%PATH%;C:\\Users\\STEL\\AppData\\Local\\Programs\\Python\\Python312\\Scripts;${env.PATH}"
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', credentialsId: '7310a3eb-f60e-4df0-8819-49b444ae99e5', url: 'https://github.com/thanhlamha/Stel.git'
+            }
+        }
+            
+        // stage('Install dependencies') {
+        //     steps {
+        //         // Create a virtual environment
+        //         bat 'python -m venv venv'
+        //         // Install dependencies within the virtual environment
+        //         bat '.\\venv\\Scripts\\pip install -r requirements.txt'
+        //     }
+        // }
+
+        stage('Run tests') {
+            steps {
+
+                    script {
+                    def tags = params.TAGS ? params.TAGS.split(',').join(' OR ') : ''
+                    // Run Robot Framework tests including the selected tags
+                    bat 'robot --outputdir results --include %TAGS% tests\\'
+                }
+
+            }
+        }
+        
+        stage('Cleanup') {
+            steps {
+                // Delete the virtual environment directory
+                echo 'Tests passed - deployment can proceed'
+            }
+        }
+        
+    }
+    
+    post {
+        success {
+            echo 'Tests passed - deployment can proceed'
+        }
+        
+        failure {
+            echo 'Tests failed - deployment halted'
+        }
+        
+        always {
+            echo 'Tests failed - deployment halted'
+        }
+    }
+}

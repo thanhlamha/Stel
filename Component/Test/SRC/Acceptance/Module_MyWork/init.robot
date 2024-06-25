@@ -1,0 +1,2 @@
+*** Settings ***
+Resource    ../keyword.robot
