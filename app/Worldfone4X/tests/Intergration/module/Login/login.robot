@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    ../../../../resources/locators/login/login_locators.robot
-Resource    ../../../../resources/variables/login/login_variables.robot
+Resource    ../../../../Resources/Locators/Login/LoginLocators.robot
+Resource    ../../../../Resources/Variables/Login/LoginVariables.robot
 Resource    ../init.robot
 
 *** Test Cases ***
@@ -19,14 +19,18 @@ WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ tr
     [Tags]    Login
     [Timeout]    15s
     [Setup]    Open Browser    ${BASE_URL}    chrome
+    Start Recording
+
     Wait Until Element Is Visible    ${txt_password}
     Input Text    ${txt_password}    qwqe
     Input Text    ${txt_loginCapcha}    qwqe
     Click Element    ${btn_login_button}
     Page Should Contain    ${missingFields}
     Page Should Contain    Tài khoản
-
+    
+    Stop Recording
     [Teardown]    Close Browser
+
 
 WF4X-02 - Kiểm tra chức năng đăng nhập với trường password bỏ trống
     [Documentation]   WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ trống
@@ -52,7 +56,6 @@ WF4X-02 - Kiểm tra chức năng đăng nhập với trường password bỏ tr
     Page Should Contain    Mật khẩu
 
     [Teardown]    Close Browser
-
 
 WF4X-03 - Kiểm tra chức năng đăng nhập với trường Capcha bỏ trống
     [Documentation]   WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ trống
