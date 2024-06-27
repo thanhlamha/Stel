@@ -4,7 +4,7 @@ Resource    ../../../resources/variables/general.robot
 Resource    ../../../resources/variables/login/login_variables.robot
 
 Library    SeleniumLibrary
-
+Library      ../../../AutoRecorder/    mode=suite
 *** Test Cases ***
 WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ trống
     [Documentation]   WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ trống
