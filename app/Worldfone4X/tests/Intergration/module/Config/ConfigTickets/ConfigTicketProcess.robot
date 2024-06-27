@@ -1,9 +1,7 @@
 *** Settings ***
-Resource    ../../../resources/locators/login/login_locators.robot
-Resource    ../../../resources/variables/general.robot
-Resource    ../../../resources/variables/login/login_variables.robot
-
-Library    SeleniumLibrary
+Resource    ../../../../../resources/locators/login/login_locators.robot
+Resource    ../../../../../resources/variables/login/login_variables.robot
+Resource    ../../init.robot
 
 *** Test Cases ***
 WF4X-01 - Kiểm tra chức năng đăng nhập với trường username bỏ trống
