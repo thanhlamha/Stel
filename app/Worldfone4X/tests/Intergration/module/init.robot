@@ -1,3 +1,4 @@
 *** Settings ***
-Resource    ../../../resources/variables/general.robot
-Resource    ../../../../../common/resources/libraries/library.robot
+Resource    ../../../Resources/Variables/General.robot
+Resource    ../../../../../Common/Resources/Libraries/Library.robot
+Resource    ../../../../../Common/Resources/Keywords/Record.robot
